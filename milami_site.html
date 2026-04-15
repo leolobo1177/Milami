@@ -1,0 +1,3254 @@
+﻿<!-- ✅ ATUALIZAÇÃO COMPLETA (pedidos novos):
+  1) AUMENTAR infos da ESQUERDA na seção COMPRA até alinhar com a altura do card da DIREITA
+     -> solução: transformei o bloco da esquerda em coluna com "flex" e adicionei um bloco extra no final
+        (FAQ + “O que você recebe”) para fechar a altura (fica alinhado visualmente).
+  2) Foto da Millena: arquivo = assets/perfil.jpg
+  3) TROCAR a posição da sessão Millena com a sessão do preço (COMPRA)
+     -> agora: ... Seção 2 -> MILLENA -> COMPRA
+  4) Mantive sem parallax e com GSAP suave.
+-->
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Grandstander:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bege:#F2E6C9;
+      --azul:#0F4C63;
+      --azul2:#0E556D;
+      --azulTxt:#0E5268;
+      --azulTxt2:#1D6A82;
+      --laranja:#F57C00;
+      --verde:#61A86A;
+      --cardStroke:rgba(255,255,255,.10);
+      --max:1100px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:"Grandstander", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:var(--bege);
+      color:var(--azulTxt);
+      scroll-behavior:smooth;
+    }
+
+    /* ===================== NAVBAR ===================== */
+    .navbar{
+      position:fixed;
+      top:0; left:0; right:0;
+      z-index:999;
+      padding:14px 22px;
+      transition: padding .35s ease;
+    }
+    .navbar.scrolled{ padding:10px 22px; }
+
+    .nav-bar{
+      max-width:calc(var(--max) + 44px);
+      margin:0 auto;
+      background:var(--azul);
+      border-radius:18px;
+      padding:12px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.14);
+      border:1px solid rgba(255,255,255,.10);
+      transition: box-shadow .35s ease, transform .35s ease;
+    }
+    .navbar.scrolled .nav-bar{
+      box-shadow: 0 14px 32px rgba(0,0,0,.18);
+      transform: translateY(-1px);
+    }
+
+    .brand{display:flex;align-items:center;gap:12px;min-width:160px;text-decoration:none}
+    .brand img{height:34px;width:auto;display:block}
+
+    .nav-links{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      color:#EAF6FB;
+      text-decoration:none;
+      font-weight:400;
+      font-size:13px;
+      opacity:.95;
+      transition: opacity .25s ease, transform .25s ease;
+      letter-spacing:.2px;
+    }
+    .nav-links a:hover{opacity:1; transform: translateY(-1px)}
+
+    .btn-cta{
+      background:var(--laranja);
+      color:#fff !important;
+      border-radius:999px;
+      padding:10px 16px;
+      font-weight:700;
+      font-size:13px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      box-shadow:0 10px 18px rgba(245,124,0,.26);
+      border:1px solid rgba(0,0,0,.08);
+      white-space:nowrap;
+    }
+    .btn-cta .heart{font-size:14px; line-height:1}
+
+    /* ===================== HERO ===================== */
+    .milami-hero{
+      background:var(--bege);
+      position:relative;
+      overflow:visible;
+      padding-top:76px;
+    }
+
+    .milami-wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:22px 28px 12px;
+      display:grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap:16px;
+      align-items:center;
+      position:relative;
+      z-index:2;
+    }
+
+    .hero-copy{
+      position:relative;
+      z-index:3;
+      padding:12px 0 72px;
+      align-self:center;
+    }
+
+    .milami-logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:16px;
+    }
+    .milami-logo img{
+      height:44px;
+      width:auto;
+      display:block;
+    }
+
+    .milami-h1{
+      margin:0 0 14px;
+      font-size:52px;
+      line-height:1.02;
+      letter-spacing:-.6px;
+      font-weight:800;
+    }
+    .milami-h1 .b{color:var(--azulTxt)}
+    .milami-h1 .o{color:var(--laranja)}
+
+    .milami-lead{
+      margin:0 0 16px;
+      color:var(--azulTxt2);
+      font-weight:700;
+      font-size:18px;
+      line-height:1.25;
+      max-width:560px;
+    }
+
+    .milami-p{
+      margin:0 0 12px;
+      color:var(--azulTxt2);
+      font-weight:400;
+      font-size:14px;
+      line-height:1.6;
+      max-width:560px;
+    }
+
+    .milami-btn{
+      margin-top:16px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px 28px;
+      background:var(--laranja);
+      color:#fff;
+      text-decoration:none;
+      font-weight:800;
+      font-size:14px;
+      border-radius:999px;
+      box-shadow:0 14px 24px rgba(245,124,0,.20);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .milami-btn:hover{
+      transform: translateY(-1px);
+      box-shadow:0 18px 30px rgba(245,124,0,.22);
+    }
+
+    .hero-media{
+      position:relative;
+      display:flex;
+      justify-content:flex-end;
+      align-items:flex-end;
+      min-height:560px;
+      z-index:1;
+      align-self:end;
+    }
+    .hero-media img{
+      width:min(780px, 142%);
+      max-width:none;
+      height:auto;
+      display:block;
+      filter: drop-shadow(0 18px 32px rgba(0,0,0,.16));
+      user-select:none;
+      pointer-events:none;
+      transform: translate(74px, -2px);
+    }
+
+    .hero-wave{
+      position:absolute;
+      left:0; right:0;
+      bottom:-23px;
+      height:108px;
+      pointer-events:none;
+      z-index:4;
+    }
+    .hero-wave svg{width:100%;height:100%;display:block}
+
+    /* ===================== SEÇÃO 2 ===================== */
+    .milami-s2{
+      background:var(--azul);
+      padding:92px 0 46px;
+      position:relative;
+      z-index:2;
+    }
+
+    .s2-wave{
+      position:absolute;
+      left:0; right:0;
+      top:-1px;
+      height:96px;
+      pointer-events:none;
+    }
+    .s2-wave svg{width:100%;height:100%;display:block}
+
+    .s2-wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:0 28px;
+      text-align:center;
+      color:#EAF6FB;
+    }
+
+    .s2-title{
+      margin:0 0 6px;
+      font-size:26px;
+      font-weight:800;
+      line-height:1.05;
+      letter-spacing:-.2px;
+    }
+    .s2-sub{
+      margin:0 0 26px;
+      font-size:12px;
+      font-weight:400;
+      opacity:.9;
+    }
+
+    .s2-cards{
+      margin:0 auto;
+      max-width:920px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .s2-card{
+      background:rgba(11,80,102,.55);
+      border:1px solid var(--cardStroke);
+      border-radius:18px;
+      padding:18px 16px 16px;
+      text-align:center;
+      min-height:170px;
+      box-shadow:0 14px 26px rgba(0,0,0,.12);
+    }
+
+    .s2-icon{
+      width:26px;height:26px;
+      margin:0 auto 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      font-size:12px;
+      opacity:.95;
+    }
+
+    .s2-card h3{
+      margin:0 0 10px;
+      font-weight:800;
+      font-size:13px;
+      line-height:1.2;
+    }
+    .s2-card p{
+      margin:0;
+      font-size:11.5px;
+      line-height:1.5;
+      font-weight:400;
+      opacity:.92;
+    }
+
+    .s2-note{
+      max-width:920px;
+      margin:16px auto 0;
+      padding:12px 14px;
+      border-radius:14px;
+      background:rgba(0,0,0,.14);
+      border:1px solid rgba(255,255,255,.10);
+      font-size:11.5px;
+      font-weight:400;
+      opacity:.92;
+    }
+
+    /* ===================== MILLENA (AGORA ANTES DA COMPRA) ===================== */
+    .milami-about{
+      background:var(--bege);
+      padding:0;
+    }
+
+    .about-wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:0 28px;
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:0;
+      align-items:stretch;
+      min-height:640px;
+    }
+
+    .about-photo{
+      overflow:hidden;
+      background:#ddd;
+      min-height:640px;
+    }
+    .about-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .about-content{
+      padding:64px 40px;
+      color:var(--azulTxt2);
+    }
+
+    .about-kicker{
+      color:var(--laranja);
+      font-weight:800;
+      font-size:12px;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      margin:0 0 10px;
+    }
+
+    .about-name{
+      margin:0 0 16px;
+      color:var(--azulTxt);
+      font-weight:800;
+      font-size:34px;
+      letter-spacing:-.3px;
+      line-height:1.05;
+    }
+
+    .about-content p{
+      margin:0 0 12px;
+      font-weight:400;
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    .about-highlights{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px 16px;
+    }
+
+    .hl{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      font-size:12.5px;
+      line-height:1.35;
+    }
+
+    .hl-ico{
+      width:32px;height:32px;
+      border-radius:10px;
+      background: rgba(245,124,0,.18);
+      border:1px solid rgba(245,124,0,.22);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex:0 0 32px;
+    }
+    .hl-ico svg{ width:18px; height:18px; fill: var(--laranja); }
+
+    .quote{
+      margin-top:18px;
+      padding:14px 14px 14px 16px;
+      border-left:4px solid var(--laranja);
+      background: rgba(15,76,99,.06);
+      border-radius:12px;
+      font-size:13px;
+      line-height:1.6;
+      color:var(--azulTxt);
+    }
+
+        /* ===================== COMPRA (ESQUERDA ALINHADA À DIREITA) ===================== */
+    .milami-buy{
+      background: var(--azul);
+      padding: 78px 0 86px;
+    }
+
+    .buy-wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 28px;
+      display: grid;
+      grid-template-columns: 1fr 1.08fr;
+      gap: 46px;
+      align-items: stretch;
+      color: #EAF6FB;
+    }
+
+    /* Left vira coluna */
+    .buy-left{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      height:100%;
+      min-height: 0;
+    }
+
+    /* TÍTULO PRINCIPAL DA ESQUERDA (maior) */
+    .buy-left h3{
+      margin: 0;
+      font-size: 22px;       /* era 14px */
+      font-weight: 900;
+      letter-spacing: .2px;
+      color:#EAF6FB;
+    }
+
+    /* checklist um pouco maior */
+    .buy-checklist{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 12px;
+      font-size: 14px;       /* era 12.5px */
+      line-height: 1.35;
+      opacity: .96;
+    }
+
+    .buy-checklist li{
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .buy-checklist li::before{
+      content:"✓";
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.12);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 18px;
+      margin-top: 2px;
+      font-size: 11px;
+      font-weight: 900;
+      color: rgba(245,124,0,.95);
+    }
+
+    .buy-think{
+      background: linear-gradient(180deg, rgba(247,241,222,.95) 0%, rgba(242,230,201,.90) 100%);
+      border: 1px solid rgba(97,168,106,.22);
+      border-radius: 24px;
+      padding: 24px 24px 22px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+      color:#0E5268;
+    }
+
+    .buy-think__title{
+      margin:0 0 12px;
+      font-size: clamp(24px, 2.4vw, 32px);
+      line-height:1.04;
+      letter-spacing:-.4px;
+      font-weight:900;
+      color:#0E5268;
+    }
+
+    .buy-think p{
+      margin: 0;
+      font-size: 15.5px;
+      line-height: 1.65;
+      opacity: 1;
+      color: rgba(14,82,104,.86);
+    }
+
+    /* Garantia (título maior) */
+    .buy-guarantee h4{
+      margin: 0 0 10px;
+      font-size: 18px;       /* era 14px */
+      font-weight: 900;
+      color:#EAF6FB;
+    }
+
+    .buy-guarantee p{
+      margin: 0;
+      font-size: 13.5px;
+      line-height: 1.55;
+      opacity: .92;
+    }
+
+    /* Card */
+    .product-card{
+      background: #F7F1DE;
+      border: 3px solid var(--laranja);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 18px 42px rgba(0,0,0,.18);
+      color: #123341;
+      max-width: 460px;
+      margin-left: auto;
+      height:100%;
+    }
+
+    .product-top{
+      background: var(--azul2);
+      color: #EAF6FB;
+      padding: 24px 18px 18px;
+      text-align: center;
+      position: relative;
+    }
+
+    .product-top small{
+      display:block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .9px;
+      opacity: .88;
+      margin-bottom: 6px;
+    }
+
+    .product-top h2{
+      margin: 0;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -.2px;
+    }
+
+    .product-body{
+      padding: 18px 18px 12px;
+    }
+
+    .product-list{
+      list-style:none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 12px;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .product-item{
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+    }
+
+    .pico{
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      background: rgba(245,124,0,.14);
+      border: 1px solid rgba(245,124,0,.22);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex: 0 0 28px;
+      margin-top: 1px;
+    }
+
+    .pico svg{ width:16px; height:16px; fill: var(--laranja); }
+
+    .product-item b{
+      display:block;
+      font-size: 12.5px;
+      font-weight: 900;
+      color: #0E5268;
+      margin-bottom: 2px;
+    }
+
+    .product-item span{
+      display:block;
+      opacity: .92;
+    }
+
+    .product-divider{
+      height: 1px;
+      background: rgba(0,0,0,.10);
+      margin: 14px 0 12px;
+    }
+
+    /* ✅ NOVO FORMATO DE PREÇO */
+    .product-price{
+      text-align:center;
+      padding: 6px 0 2px;
+    }
+
+    .product-price .price-lead{
+      font-size: 14px;
+      font-weight: 900;
+      color: #0E5268;
+      opacity: .9;
+      margin-bottom: 10px;
+    }
+
+    .product-price .price-main{
+      font-weight: 1000;
+      font-size: 42px;
+      letter-spacing: -.6px;
+      color: #0E5268;
+      line-height: 1.05;
+    }
+
+    .product-price .price-main b{
+      color: var(--laranja);
+      font-weight: 1000;
+    }
+
+    .product-price .price-sub{
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 900;
+      color: #0E5268;
+      opacity: .9;
+    }
+
+    /* CTA */
+    .product-cta{
+      padding: 14px 18px 10px;
+    }
+
+    .product-cta a{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      padding: 16px 18px;
+      border-radius: 999px;
+      background: var(--laranja);
+      color:#fff;
+      text-decoration:none;
+      font-weight: 1000;
+      font-size: 14px;
+      box-shadow: 0 16px 26px rgba(245,124,0,.20);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .product-cta a:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 20px 32px rgba(245,124,0,.22);
+    }
+
+    .product-bottom{
+      padding: 10px 18px 16px;
+      display:flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      font-size: 11px;
+      opacity: .9;
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+
+    .mini{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      color:#0E5268;
+      font-weight: 800;
+    }
+    .mini svg{ width:14px;height:14px; fill: var(--laranja); }
+
+
+    /* ===================== FAQ MILÁMI (CREME) ===================== */
+.milami-faq{
+  background: #F7F1DE;              /* ✅ creme do print */
+  padding: 86px 0 96px;
+  color: #0E5268;                   /* azul padrão para textos */
+}
+
+.faq-wrap{
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 28px;
+  display: grid;
+  grid-template-columns: .92fr 1.08fr;
+  gap: 52px;
+  align-items: start;
+}
+
+/* Pill */
+.faq-pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 1000;
+  letter-spacing: .6px;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+
+.faq-pill--orange{
+  background: rgba(245,124,0,.12);
+  border: 1px solid rgba(245,124,0,.25);
+  color: var(--laranja);
+}
+
+/* Título */
+.faq-left h2{
+  margin: 0 0 14px;
+  font-size: clamp(34px, 2vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -.6px;
+  font-weight: 1000;
+  color: var(--laranja);            /* ✅ laranja no título */
+}
+
+/* Subtexto */
+.faq-sub{
+  margin: 0 0 28px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(14,82,104,.86);
+  max-width: 46ch;
+}
+
+/* Card suporte (mantém clean e claro) */
+.faq-help-card{
+  background: #FFFFFF;
+  color: #0E5268;
+  border-radius: 24px;
+  padding: 26px;
+  border: 1px solid rgba(14,82,104,.10);
+  box-shadow: 0 16px 40px rgba(0,0,0,.10);
+  max-width: 420px;
+}
+
+.faq-help-icon{
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(14,82,104,.08);
+  border: 1px solid rgba(14,82,104,.12);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight: 1000;
+  font-size: 22px;
+  color: var(--laranja);
+  margin-bottom: 16px;
+}
+
+.faq-help-card h3{
+  margin: 0 0 10px;
+  font-size: 24px;
+  line-height: 1.15;
+  font-weight: 1000;
+  letter-spacing: -.3px;
+  color: #0E5268;
+}
+
+.faq-help-card p{
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(14,82,104,.78);
+}
+
+/* ✅ Botão laranja (identidade) */
+.faq-help-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 999px;
+  background: var(--laranja);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 1000;
+  box-shadow: 0 16px 26px rgba(245,124,0,.18);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.faq-help-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 20px 32px rgba(245,124,0,.22);
+}
+
+.wpp-dot{
+  width: 10px; height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.95);
+}
+
+/* Accordion */
+.faq-right{
+  display:flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ✅ cards claros, borda sutil */
+.faq-item{
+  text-align:left;
+  width:100%;
+  border: 1px solid rgba(14,82,104,.14);
+  background: rgba(255,255,255,.72);
+  border-radius: 26px;
+  padding: 18px 18px;
+  cursor:pointer;
+  color: #0E5268;
+  box-shadow: 0 10px 24px rgba(0,0,0,.06);
+  transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
+  position: relative;
+}
+
+.faq-item:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 14px 28px rgba(0,0,0,.08);
+}
+
+.faq-q{
+  display:block;
+  font-weight: 1000;
+  font-size: 18px;
+  line-height: 1.25;
+  padding-right: 56px;
+  color: #0E5268;                   /* pergunta em azul */
+}
+
+/* ✅ ícone com laranja */
+.faq-ico{
+  position:absolute;
+  right: 14px;
+  top: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: rgba(245,124,0,.14);
+  border: 1px solid rgba(245,124,0,.22);
+}
+
+.faq-ico::before{
+  content:"";
+  position:absolute;
+  inset: 0;
+  margin:auto;
+  width: 10px;
+  height: 10px;
+  border-right: 3px solid rgba(14,82,104,.95); /* setinha azul */
+  border-bottom: 3px solid rgba(14,82,104,.95);
+  transform: rotate(45deg);
+  top: 0; bottom: 2px; left: 0; right: 0;
+}
+
+/* ✅ Resposta em azul + justificada */
+.faq-a{
+  display:block;
+  max-height: 0;
+  overflow:hidden;
+  opacity: 0;
+  margin-top: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: rgba(14,82,104,.88);       /* azul para textos extensos */
+  text-align: justify;
+  text-justify: inter-word;
+  transition: max-height .28s ease, opacity .22s ease, margin-top .22s ease;
+}
+
+.faq-item.is-open .faq-a{
+  max-height: 260px;
+  opacity: 1;
+  margin-top: 12px;
+}
+
+/* aberto: reforça o laranja no ícone */
+.faq-item.is-open .faq-ico{
+  background: rgba(245,124,0,.18);
+  border-color: rgba(245,124,0,.28);
+}
+
+.faq-item.is-open .faq-ico::before{
+  transform: rotate(-135deg);
+  bottom: 0;
+}
+
+/* Responsivo */
+@media (max-width: 980px){
+  .faq-wrap{
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+  .faq-help-card{
+    max-width: 520px;
+  }
+}
+
+    /* ===================== RESPONSIVO ===================== */
+
+/* ✅ Título “Perguntas Frequentes” em uma linha (desktop) */
+@media (min-width: 981px){
+  .faq-title{
+    white-space: nowrap;
+  }
+}
+
+/* no mobile pode quebrar normalmente */
+@media (max-width: 980px){
+  .faq-title{
+    white-space: normal;
+  }
+}
+
+    @media (max-width: 980px){
+      .buy-wrap{ grid-template-columns: 1fr; gap: 26px; }
+      .product-card{ margin: 0 auto; width: 100%; }
+    }
+
+/* ===================== GSAP ===================== */
+    .gsap-hidden{ opacity:0; transform: translateY(14px); }
+
+    /* ===================== RESPONSIVO ===================== */
+    @media (max-width: 980px){
+      .milami-wrap{
+        grid-template-columns:1fr;
+        gap:8px;
+        padding-top:18px;
+        padding-bottom:10px;
+      }
+      .milami-hero{
+        overflow:hidden;
+      }
+      .hero-copy{
+        padding:0 0 18px;
+      }
+      .hero-media{
+        min-height:330px;
+        justify-content:center;
+      }
+      .hero-media img{
+        width:min(660px, 128%);
+        transform: translate(20px, 8px);
+      }
+      .milami-h1{font-size:40px}
+      .nav-links a{display:none}
+      .nav-links a.btn-cta{display:inline-flex}
+
+      .s2-cards{grid-template-columns:1fr; max-width:520px}
+
+      .about-wrap{
+        grid-template-columns:1fr;
+        padding:0;
+        min-height:auto;
+      }
+      .about-photo{ min-height:360px; }
+      .about-content{ padding:28px 20px; }
+      .about-highlights{ grid-template-columns:1fr; }
+      .about-name{ font-size:28px; }
+
+      .buy-wrap{ grid-template-columns: 1fr; gap: 26px; }
+      .product-card{ margin: 0 auto; width: 100%; }
+      .buy-left{ min-height: 0; }
+      .buy-think{
+        padding:24px 20px 22px;
+      }
+      .buy-think__title{
+        font-size:30px;
+      }
+    }
+
+/* ===================== DEPOIMENTOS ===================== */
+.milami-testimonials{
+  background: var(--azul);
+  padding: 88px 0 92px;
+  overflow: hidden;
+  position: relative;
+}
+
+.testimonials-wrap{
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.testimonials-head{
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 34px;
+  padding: 0 24px;
+}
+
+.testimonials-icon{
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.testimonials-head h2{
+  margin: 0 0 10px;
+  color: #F7F1DE;
+  font-size: clamp(30px, 3vw, 44px);
+  line-height: 1.08;
+  font-weight: 1000;
+  letter-spacing: -0.5px;
+}
+
+.testimonials-head p{
+  margin: 0 auto;
+  max-width: 620px;
+  color: rgba(247,241,222,.78);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.testimonials-marquee{
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  cursor: grab;
+  touch-action: pan-y;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0,0,0,1) 12%,
+    rgba(0,0,0,1) 88%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0,0,0,1) 12%,
+    rgba(0,0,0,1) 88%,
+    transparent 100%
+  );
+}
+
+.testimonials-marquee.is-dragging{
+  cursor: grabbing;
+}
+
+.testimonials-marquee::before,
+.testimonials-marquee::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 140px;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.testimonials-marquee::before{
+  left: 0;
+  background: linear-gradient(to right, var(--azul) 0%, rgba(7, 80, 106, 0) 100%);
+}
+
+.testimonials-marquee::after{
+  right: 0;
+  background: linear-gradient(to left, var(--azul) 0%, rgba(7, 80, 106, 0) 100%);
+}
+
+.testimonials-track{
+  display: flex;
+  gap: 22px;
+  width: max-content;
+  padding: 18px 0;
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform;
+}
+
+.testimonial-card{
+  width: 340px;
+  min-height: 190px;
+  background: linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.04) 100%);
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow: 0 10px 26px rgba(0,0,0,.12);
+  border-radius: 22px;
+  padding: 18px 18px 16px;
+  position: relative;
+  transition:
+    transform .28s ease,
+    box-shadow .28s ease,
+    border-color .28s ease,
+    background .28s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.testimonial-card:hover{
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 22px 42px rgba(0,0,0,.18);
+  border-color: rgba(245,124,0,.22);
+  background: linear-gradient(180deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,.06) 100%);
+}
+
+.testimonial-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--laranja);
+  background: rgba(245,124,0,.08);
+  border: 1px solid rgba(245,124,0,.12);
+  margin-bottom: 14px;
+}
+
+.testimonial-quote-mark{
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 1000;
+  color: rgba(255,255,255,.08);
+  pointer-events: none;
+}
+
+.testimonial-text{
+  margin: 0 0 20px;
+  color: rgba(247,241,222,.92);
+  font-size: 14px;
+  line-height: 1.55;
+  min-height: 84px;
+}
+
+.testimonial-author{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.testimonial-avatar{
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(247,241,222,.12);
+  color: #F7F1DE;
+  font-size: 12px;
+  font-weight: 1000;
+  flex: 0 0 30px;
+}
+
+.testimonial-author strong{
+  display: block;
+  color: #F7F1DE;
+  font-size: 12.5px;
+  line-height: 1.3;
+}
+
+.testimonial-author span{
+  display: block;
+  color: rgba(247,241,222,.58);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+/* rodapé */
+.testimonials-footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 10px;
+  padding: 0 24px;
+}
+
+.testimonials-note{
+  margin: 0;
+  color: rgba(247,241,222,.42);
+  font-size: 11px;
+  line-height: 1.4;
+  text-align: left;
+  flex: 1;
+}
+
+.testimonials-nav{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.testimonials-arrow{
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid rgba(245,124,0,.18);
+  background: rgba(245,124,0,.10);
+  color: #F7F1DE;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform .22s ease, background .22s ease, border-color .22s ease;
+}
+
+.testimonials-arrow span{
+  font-size: 24px;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.testimonials-arrow:hover{
+  transform: translateY(-2px);
+  background: rgba(245,124,0,.18);
+  border-color: rgba(245,124,0,.30);
+}
+
+/* mobile/tablet */
+@media (max-width: 980px){
+  .milami-testimonials{
+    padding: 72px 0 80px;
+  }
+
+  .testimonials-head{
+    margin-bottom: 24px;
+  }
+
+  .testimonial-card{
+    width: 285px;
+    min-height: 185px;
+    border-radius: 18px;
+    padding: 16px;
+  }
+
+  .testimonials-marquee::before,
+  .testimonials-marquee::after{
+    width: 48px;
+  }
+
+  .testimonials-footer{
+    padding: 0 20px;
+  }
+
+  .testimonials-nav{
+    display: none; /* ocultar em telas menores */
+  }
+
+  .testimonials-note{
+    max-width: 100%;
+  }
+.testimonials-arrow{
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+}
+
+/* ===================== O MILÁMI É PARA VOCÊ ===================== */
+.milami-fit{
+  position: relative;
+  background: #F3EFCF;
+  padding: 92px 0 100px;
+  overflow: hidden;
+}
+
+.milami-fit-wrap{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 28px;
+  position: relative;
+  z-index: 2;
+}
+
+.milami-fit-head{
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 46px;
+}
+
+.milami-fit-head h2{
+  margin: 0 0 16px;
+  color: #0E5268;
+  font-size: clamp(34px, 4vw, 58px);
+  line-height: 1.05;
+  font-weight: 1000;
+  letter-spacing: -0.8px;
+}
+
+.milami-fit-head p{
+  margin: 0 auto;
+  max-width: 680px;
+  color: rgba(14,82,104,.88);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* grid */
+.milami-fit-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 34px;
+  align-items: stretch;
+}
+
+/* cards */
+.fit-card{
+  border-radius: 34px;
+  padding: 34px 34px 32px;
+  position: relative;
+}
+
+/* card sim */
+.fit-card--yes{
+  background: #F8F8F8;
+  border: 1px solid rgba(97,168,106,.22);
+  box-shadow:
+    0 16px 34px rgba(14,82,104,.08),
+    0 3px 0 rgba(97,168,106,.14);
+}
+
+
+
+/* card talvez não */
+.fit-card--no{
+  background: rgba(247,241,222,.58);
+  border: 2px dashed rgba(196,92,88,.30);
+  box-shadow: inset 0 0 0 1px rgba(196,92,88,.08);
+}
+
+/* topo card */
+.fit-card-top{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom: 26px;
+  position: relative;
+  z-index: 2;
+}
+
+.fit-card-top h3{
+  margin:0;
+  font-size: clamp(24px, 2.1vw, 38px);
+  line-height: 1.15;
+  font-weight: 1000;
+}
+
+.fit-card--yes .fit-card-top h3{
+  color:#0E5268;
+}
+
+.fit-card--no .fit-card-top h3{
+  color: rgba(177,77,73,.68);
+}
+
+/* ícones */
+.fit-icon{
+  width: 58px;
+  height: 58px;
+  border-radius: 999px;
+  flex: 0 0 58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 22px;
+  font-weight: 1000;
+  box-shadow: 0 10px 18px rgba(0,0,0,.08);
+}
+
+.fit-icon--yes{
+  background: var(--verde);
+  color: #fff;
+}
+
+.fit-icon--no{
+  background: rgba(196,92,88,.22);
+  color: rgba(255,255,255,.94);
+  box-shadow: none;
+}
+
+/* lista */
+.fit-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 22px;
+}
+
+.fit-list li{
+  display:grid;
+  grid-template-columns: 26px 1fr;
+  gap: 14px;
+  align-items: start;
+  color: #183E52;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.fit-list strong{
+  font-weight: 1000;
+  color: #0E5268;
+}
+
+.fit-check,
+.fit-cross{
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 13px;
+  font-weight: 1000;
+  margin-top: 2px;
+}
+
+.fit-check{
+  background: var(--verde);
+  color:#fff;
+  box-shadow: 0 6px 14px rgba(97,168,106,.22);
+}
+
+.fit-cross{
+  background: rgba(196,92,88,.18);
+  color: rgba(177,77,73,.82);
+}
+
+.fit-list--muted li{
+  color: rgba(161,86,82,.88);
+}
+
+/* nota inferior */
+.fit-note{
+  margin-top: 34px;
+  background: rgba(255,255,255,.72);
+  border-radius: 24px;
+  padding: 22px 22px;
+  color: rgba(177,77,73,.88);
+  font-size: 15px;
+  line-height: 1.55;
+  text-align: center;
+  font-style: italic;
+}
+
+/* decorações */
+.milami-fit-deco{
+  position:absolute;
+  z-index: 1;
+  pointer-events:none;
+  user-select:none;
+}
+
+.note-left{
+  top: 26px;
+  left: 26px;
+  font-size: 78px;
+  color: rgba(97,168,106,.16);
+  transform: rotate(-10deg);
+}
+
+.heart-right{
+  right: 26px;
+  bottom: 28px;
+  font-size: 90px;
+  color: rgba(14,82,104,.12);
+  transform: rotate(-12deg);
+}
+
+/* ===================== ANIMAÇÃO ===================== */
+.reveal-up{
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity .75s ease,
+    transform .75s cubic-bezier(.22,.61,.36,1);
+}
+
+.reveal-up.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay-1{ transition-delay: .08s; }
+.delay-2{ transition-delay: .16s; }
+.delay-3{ transition-delay: .24s; }
+
+/* ===================== RESPONSIVO ===================== */
+@media (max-width: 1024px){
+  .milami-fit{
+    padding: 78px 0 86px;
+  }
+
+  .milami-fit-grid{
+    gap: 24px;
+  }
+
+  .fit-card{
+    padding: 28px 26px 28px;
+    border-radius: 28px;
+  }
+
+  .fit-card-top h3{
+    font-size: clamp(22px, 2.4vw, 30px);
+  }
+
+  .fit-list li{
+    font-size: 15.5px;
+  }
+}
+
+@media (max-width: 840px){
+  .milami-fit-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .milami-fit-head{
+    margin-bottom: 34px;
+  }
+
+  .fit-card{
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .heart-right{
+    font-size: 68px;
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .note-left{
+    font-size: 58px;
+    top: 16px;
+    left: 14px;
+  }
+}
+
+@media (max-width: 560px){
+  .milami-fit{
+    padding: 68px 0 74px;
+  }
+
+  .milami-fit-wrap{
+    padding: 0 18px;
+  }
+
+  .milami-fit-head h2{
+    font-size: clamp(28px, 8vw, 42px);
+  }
+
+  .milami-fit-head p{
+    font-size: 15px;
+  }
+
+  .fit-card{
+    padding: 24px 20px 24px;
+    border-radius: 24px;
+  }
+
+  .fit-card-top{
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+.fit-icon{
+  width: 74px;
+  height: 74px;
+  border-radius: 999px;
+  flex: 0 0 74px;
+  font-size: 30px;
+}
+
+  .fit-card-top h3{
+    font-size: 26px;
+  }
+
+  .fit-list{
+    gap: 18px;
+  }
+
+  .fit-list li{
+    grid-template-columns: 22px 1fr;
+    gap: 12px;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .fit-check,
+  .fit-cross{
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+  }
+
+  .fit-note{
+    margin-top: 26px;
+    padding: 18px 16px;
+    font-size: 14px;
+  }
+}
+
+.milami-experience{
+  background:var(--azul);
+  padding:52px 20px 96px;
+  position:relative;
+  overflow:hidden;
+}
+
+.milami-experience__container{
+  max-width:1180px;
+  margin:0 auto;
+  position:relative;
+  min-height:690px;
+}
+
+.milami-experience__header{
+  text-align:center;
+  max-width:720px;
+  margin:0 auto 18px;
+  position:relative;
+  z-index:5;
+}
+
+.milami-experience__header h2{
+  margin:0 0 10px;
+  color:#f6e7be;
+  font-size:clamp(34px, 3vw, 52px);
+  line-height:1.06;
+  font-weight:900;
+  letter-spacing:-0.4px;
+}
+
+.milami-experience__header p{
+  margin:0 auto;
+  max-width:560px;
+  color:#f6e7be;
+  opacity:.95;
+  font-size:13px;
+  line-height:1.4;
+}
+
+/* NUVENS */
+.cloud{
+  position:absolute;
+  width:108px;
+  z-index:1;
+  user-select:none;
+  pointer-events:none;
+  will-change: transform;
+  transform-origin:center;
+}
+
+.cloud1{ left:36px; top:74px; animation: cloudDrift1 7.4s ease-in-out infinite; }
+.cloud2{ right:86px; top:84px; animation: cloudDrift2 7.1s ease-in-out infinite; }
+.cloud3{ right:14px; top:165px; animation: cloudDrift3 8s ease-in-out infinite; }
+.cloud4{ left:28px; top:236px; animation: cloudDrift4 7.7s ease-in-out infinite; }
+
+@keyframes cloudDrift1{
+  0%,100%{ transform: translate3d(0,0,0); }
+  50%{ transform: translate3d(22px,-12px,0); }
+}
+@keyframes cloudDrift2{
+  0%,100%{ transform: translate3d(0,0,0); }
+  50%{ transform: translate3d(-24px,13px,0); }
+}
+@keyframes cloudDrift3{
+  0%,100%{ transform: translate3d(0,0,0); }
+  50%{ transform: translate3d(-18px,-12px,0); }
+}
+@keyframes cloudDrift4{
+  0%,100%{ transform: translate3d(0,0,0); }
+  50%{ transform: translate3d(26px,15px,0); }
+}
+
+/* CRIANÇAS */
+.kids{
+  position:relative;
+  z-index:2;
+  display:flex;
+  justify-content:center;
+  margin-top:24px;
+}
+
+.kids img{
+  width:100%;
+  max-width:760px;
+  display:block;
+  height:auto;
+}
+
+/* degradê sobre a parte inferior das crianças */
+.kids::after{
+  content:none;
+}
+
+/* DESKTOP */
+.cards-desktop{
+  position:relative;
+  z-index:4;
+  max-width:1020px;
+  margin:0 auto;
+  margin-top:72px;
+  display:grid;
+  grid-template-columns:repeat(6, minmax(0, 1fr));
+  column-gap:20px;
+  row-gap:36px;
+  align-items:start;
+  justify-items:center;
+}
+
+.card{
+  width:100%;
+  max-width:100%;
+  min-height:112px;
+  background:#f6e8c2;
+  border-radius:24px;
+  padding:34px 18px 18px;
+  text-align:center;
+  position:relative;
+  box-sizing:border-box;
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+
+.card .icon{
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:#005b84;
+  border:3px solid #f6e8c2; /* traçado da cor do card */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:absolute;
+  top:-18px;
+  left:50%;
+  transform:translateX(-50%);
+  box-sizing:border-box;
+}
+
+.card .icon img{
+  width:24px;
+  height:24px;
+  object-fit:contain;
+  display:block;
+}
+
+.card h3{
+  margin:0 0 8px;
+  color:#005b84;
+  font-size:15px;
+  line-height:1.15;
+  font-weight:900;
+}
+
+.card p{
+  margin:0 auto;
+  max-width:205px;
+  color:#005b84;
+  font-size:11.3px;
+  line-height:1.32;
+}
+
+/* posições centralizadas em relação à primeira linha */
+.card-1{ grid-column:1 / span 2; }
+.card-2{ grid-column:3 / span 2; }
+.card-3{ grid-column:5 / span 2; }
+
+.card-4{ grid-column:2 / span 2; }
+.card-5{ grid-column:4 / span 2; }
+
+/* MOBILE */
+.cards-mobile{
+  display:none;
+}
+
+.mobile-card{
+  background:#f6e8c2;
+  border-radius:999px;
+  padding:10px 14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:12px;
+  min-height:64px;
+}
+
+.mobile-icon{
+  width:44px;
+  height:44px;
+  min-width:44px;
+  border-radius:50%;
+  background:#005b84;
+  border:3px solid #f6e8c2; /* traçado do card */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  flex-shrink:0;
+}
+
+.mobile-icon img{
+  width:20px;
+  height:20px;
+  object-fit:contain;
+  display:block;
+}
+
+.mobile-content{
+  flex:1;
+  min-width:0;
+}
+
+.mobile-content h3{
+  margin:0 0 4px;
+  color:#005b84;
+  font-size:15px;
+  line-height:1.05;
+  font-weight:900;
+}
+
+.mobile-content p{
+  margin:0;
+  color:#005b84;
+  font-size:10.5px;
+  line-height:1.24;
+}
+
+/* RESPONSIVO */
+@media (max-width: 980px){
+  .milami-experience{
+    padding:28px 16px 34px;
+  }
+
+  .milami-experience__container{
+    min-height:auto;
+  }
+
+  .milami-experience__header{
+    max-width:320px;
+    margin-bottom:18px;
+  }
+
+  .milami-experience__header h2{
+    font-size:clamp(18px, 6vw, 30px);
+    margin-bottom:6px;
+  }
+
+  .milami-experience__header p{
+    max-width:270px;
+    font-size:9px;
+    line-height:1.35;
+  }
+
+  .cloud,
+  .kids,
+  .cards-desktop{
+    display:none;
+  }
+
+  .cards-mobile{
+    display:block;
+    max-width:330px;
+    margin:0 auto;
+  }
+
+  .mobile-card{
+    padding:8px 12px;
+    gap:12px;
+    min-height:62px;
+  }
+
+  .mobile-icon{
+    width:42px;
+    height:42px;
+    min-width:42px;
+  }
+
+  .mobile-icon img{
+    width:18px;
+    height:18px;
+  }
+
+  .mobile-content h3{
+    font-size:14px;
+  }
+
+  .mobile-content p{
+    font-size:10px;
+  }
+}
+
+
+/* ===================== FOOTER ===================== */
+.checkout-anchor{
+  height:0;
+}
+
+.milami-footer{
+  background:#0F4C63;
+  color:#F7F1DE;
+  padding:74px 0 26px;
+}
+
+.milami-footer__wrap{
+  max-width:var(--max);
+  margin:0 auto;
+  padding:0 28px;
+}
+
+.milami-footer__top{
+  display:grid;
+  grid-template-columns:1.2fr .9fr .9fr;
+  gap:46px;
+  align-items:start;
+}
+
+.milami-footer__logo{
+  width:220px;
+  max-width:100%;
+  height:auto;
+  display:block;
+  margin-bottom:14px;
+}
+
+.milami-footer__desc{
+  margin:0;
+  max-width:34ch;
+  color:rgba(247,241,222,.92);
+  font-size:16px;
+  line-height:1.55;
+}
+
+.milami-footer h3{
+  margin:2px 0 14px;
+  color:#FFFFFF;
+  font-size:28px;
+  line-height:1.05;
+  font-weight:900;
+  letter-spacing:-.2px;
+}
+
+.milami-footer__links,
+.milami-footer__contact-links{
+  display:grid;
+  gap:10px;
+}
+
+.milami-footer a{
+  color:rgba(247,241,222,.92);
+  text-decoration:none;
+  font-size:24px;
+  line-height:1.2;
+  font-weight:500;
+  transition:opacity .2s ease, transform .2s ease;
+}
+
+.milami-footer__contact-link{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  width:fit-content;
+}
+
+.milami-footer__contact-ico{
+  width:24px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  line-height:1;
+  flex:0 0 24px;
+}
+
+.milami-footer a:hover{
+  opacity:1;
+  transform:translateX(2px);
+}
+
+.milami-footer__divider{
+  margin:34px 0 16px;
+  height:1px;
+  background:rgba(247,241,222,.14);
+}
+
+.milami-footer__middle{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+  flex-direction:column;
+  text-align:center;
+}
+
+.milami-footer__copy{
+  margin:0;
+  color:rgba(247,241,222,.78);
+  font-size:20px;
+  line-height:1.5;
+}
+
+.milami-footer__legal{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.milami-footer__legal a{
+  font-size:20px;
+  color:rgba(247,241,222,.86);
+}
+
+.milami-footer__bottom{
+  margin:38px 0 0;
+  text-align:center;
+  color:rgba(247,241,222,.7);
+  font-size:20px;
+  line-height:1.4;
+}
+
+@media (max-width: 980px){
+  .milami-footer{
+    padding:56px 0 24px;
+  }
+
+  .milami-footer__top{
+    grid-template-columns:1fr;
+    gap:28px;
+  }
+
+  .milami-footer h3{
+    font-size:24px;
+    margin-bottom:10px;
+  }
+
+  .milami-footer__desc{
+    max-width:100%;
+    font-size:15px;
+  }
+
+  .milami-footer a{
+    font-size:20px;
+  }
+
+  .milami-footer__logo{
+    width:180px;
+  }
+
+  .milami-footer__copy,
+  .milami-footer__legal a,
+  .milami-footer__bottom{
+    font-size:16px;
+  }
+
+  .milami-footer__middle{
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+  }
+
+  .milami-footer__legal{
+    gap:16px;
+    justify-content:center;
+  }
+
+  .milami-footer__bottom{
+    margin-top:24px;
+    text-align:center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .cloud{ animation:none !important; }
+}
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-bar">
+      <a class="brand" href="#hero" aria-label="MiLáMi">
+        <img src="assets/logo_milami.png" alt="MiLáMi">
+      </a>
+
+      <div class="nav-links">
+        <a href="#metodo">O Método</a>
+        <a href="#beneficios">Benefícios</a>
+        <a href="#depoimentos">Depoimentos</a>
+        <!-- ✅ NAV CTA -> COMPRA -->
+        <a href="#compra" class="btn-cta"><span class="heart">❤</span> Quero Participar</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="milami-hero" id="hero">
+    <div class="milami-wrap">
+      <div class="hero-copy">
+        <h1 class="milami-h1 gsap-hidden" id="heroTitle">
+          <span class="b">Do</span> <span class="o">Ventre</span> <span class="b">ao</span> <span class="o">Colo</span>
+        </h1>
+
+        <p class="milami-lead gsap-hidden heroP">
+          Nos primeiros dias de vida, tudo é novo.<br>
+          Tanto para o bebê quanto para você.
+        </p>
+
+        <p class="milami-p gsap-hidden heroP">
+          Entre descobertas e inseguranças, existe algo que<br>
+          já estava lá antes mesmo do nascimento. Algo que<br>
+          não precisa ser aprendido, e sim lembrado.
+        </p>
+
+        <p class="milami-p gsap-hidden heroP">
+          Existe uma linguagem que vem antes das palavras.<br>
+          Ela mora na sua voz. Na sua respiração.<br>
+          No som do seu coração.
+        </p>
+
+        <p class="milami-p gsap-hidden heroP">
+          Este eBook é um convite para transformar presença<br>
+          em música. E música em colo.
+        </p>
+
+        <!-- ✅ HERO CTA -> COMPRA -->
+        <a class="milami-btn gsap-hidden" id="heroCta" href="#compra">
+          Quero viver essa experiência com meu bebê
+        </a>
+      </div>
+
+      <div class="hero-media" aria-hidden="true">
+        <img src="assets/hero_ref.png" alt="">
+      </div>
+    </div>
+
+    <div class="hero-wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path fill="#0F4C63"
+          d="M0,70 C140,95 290,102 420,92 C560,80 650,50 770,54
+             C910,58 990,86 1120,96 C1260,107 1340,98 1440,78
+             L1440,120 L0,120 Z"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 2 -->
+  <section class="milami-s2" id="sec2">
+    <div class="s2-wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path fill="#0F4C63"
+          d="M0,64 C120,80 240,96 360,90 C480,84 600,56 720,50
+             C840,44 960,66 1080,78 C1200,90 1320,92 1440,74
+             L1440,0 L0,0 Z"></path>
+      </svg>
+    </div>
+
+    <div class="s2-wrap">
+      <h2 class="s2-title gsap-hidden" id="s2Title">Você já se perguntou se está<br>fazendo o suficiente?</h2>
+      <p class="s2-sub gsap-hidden" id="s2Sub">Os primeiros meses podem ser delicados.</p>
+
+      <div class="s2-cards">
+        <div class="s2-card gsap-hidden s2Card">
+          <div class="s2-icon">◦</div>
+          <h3>O choro<br>sem explicação.</h3>
+          <p>
+            Muitos pais querem o melhor para seus filhos, mas não sabem por
+            onde começar ou quais atividades realmente fazem diferença no desenvolvimento.
+          </p>
+        </div>
+
+        <div class="s2-card gsap-hidden s2Card">
+          <div class="s2-icon">◦</div>
+          <h3>A insegurança<br>silenciosa.</h3>
+          <p>
+            Sabemos que os pais também se sentem sozinhos na tarefa do cuidado,
+            mas também sabem que precisam de experiências reais, sensíveis e conectadas.
+          </p>
+        </div>
+
+        <div class="s2-card gsap-hidden s2Card">
+          <div class="s2-icon">◦</div>
+          <h3>O medo de não<br>saber como acalmar.</h3>
+          <p>
+            Em meio à correria do dia a dia, encontrar momentos de conexão
+            pode ser significativo e cada vez mais difícil.
+          </p>
+        </div>
+      </div>
+
+      <div class="s2-note gsap-hidden" id="s2Note">
+        💛 A boa notícia? Existe uma forma simples, carinhosa e cientificamente comprovada de estimular seu filho enquanto vocês se conhecem juntos.
+      </div>
+    </div>
+  </section>
+
+ <section class="milami-experience" id="experiencias">
+  <div class="milami-experience__container">
+
+    <div class="milami-experience__header">
+      <h2>O que seu filho vai experimentar</h2>
+      <p>
+        Cada atividade foi cuidadosamente pensada para proporcionar experiências ricas,
+        seguras e cheias de significado.
+      </p>
+    </div>
+
+    <!-- NUVENS -->
+    <img src="assets/nuvem.png" class="cloud cloud1" alt="">
+    <img src="assets/nuvem.png" class="cloud cloud2" alt="">
+    <img src="assets/nuvem.png" class="cloud cloud3" alt="">
+    <img src="assets/nuvem.png" class="cloud cloud4" alt="">
+
+    <!-- CRIANÇAS -->
+    <div class="kids">
+      <img src="assets/crianças.png" alt="Crianças com instrumentos musicais">
+    </div>
+
+    <!-- CARDS DESKTOP -->
+    <div class="cards-desktop">
+
+      <div class="card card-1">
+        <div class="icon">
+          <img src="assets/SVG_1.png" alt="">
+        </div>
+        <h3>Brincadeiras Musicais</h3>
+        <p>
+          Canções, jogos e dinâmicas que transformam cada momento em uma descoberta sonora cheia de alegria.
+        </p>
+      </div>
+
+      <div class="card card-2">
+        <div class="icon">
+          <img src="assets/SVG_2.png" alt="">
+        </div>
+        <h3>Ritmo e Movimento</h3>
+        <p>
+          Atividades que combinam música e movimento corporal, desenvolvendo coordenação e expressão.
+        </p>
+      </div>
+
+      <div class="card card-3">
+        <div class="icon">
+          <img src="assets/SVG_3.png" alt="">
+        </div>
+        <h3>Exploração Sonora</h3>
+        <p>
+          Descobrindo sons do ambiente, instrumentos e da própria voz em experiências sensoriais ricas.
+        </p>
+      </div>
+
+      <div class="card card-4">
+        <div class="icon">
+          <img src="assets/SVG_4.png" alt="">
+        </div>
+        <h3>Estimulação Sensorial</h3>
+        <p>
+          Texturas, timbres e vibrações que despertam todos os sentidos da criança de forma integrada.
+        </p>
+      </div>
+
+      <div class="card card-5">
+        <div class="icon">
+          <img src="assets/SVG_5.png" alt="">
+        </div>
+        <h3>Momentos em Família</h3>
+        <p>
+          Atividades pensadas para serem compartilhadas, fortalecendo laços através da música.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- CARDS MOBILE -->
+    <div class="cards-mobile">
+
+      <div class="mobile-card">
+        <div class="mobile-icon">
+          <img src="assets/SVG_1.png" alt="">
+        </div>
+        <div class="mobile-content">
+          <h3>Brincadeiras Musicais</h3>
+          <p>Canções, jogos e dinâmicas que transformam cada momento em uma descoberta sonora cheia de alegria.</p>
+        </div>
+      </div>
+
+      <div class="mobile-card">
+        <div class="mobile-icon">
+          <img src="assets/SVG_3.png" alt="">
+        </div>
+        <div class="mobile-content">
+          <h3>Exploração Sonora</h3>
+          <p>Descobrindo sons do ambiente, instrumentos e da própria voz em experiências sensoriais ricas.</p>
+        </div>
+      </div>
+
+      <div class="mobile-card">
+        <div class="mobile-icon">
+          <img src="assets/SVG_2.png" alt="">
+        </div>
+        <div class="mobile-content">
+          <h3>Ritmo e Movimento</h3>
+          <p>Atividades que combinam música e movimento corporal, desenvolvendo coordenação e expressão.</p>
+        </div>
+      </div>
+
+      <div class="mobile-card">
+        <div class="mobile-icon">
+          <img src="assets/SVG_5.png" alt="">
+        </div>
+        <div class="mobile-content">
+          <h3>Momentos em Família</h3>
+          <p>Atividades pensadas para serem compartilhadas, fortalecendo laços através da música.</p>
+        </div>
+      </div>
+
+      <div class="mobile-card">
+        <div class="mobile-icon">
+          <img src="assets/SVG_4.png" alt="">
+        </div>
+        <div class="mobile-content">
+          <h3>Estimulação Sensorial</h3>
+          <p>Texturas, timbres e vibrações que despertam todos os sentidos da criança de forma integrada.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+  <!-- ✅ MILLENA (AGORA VEM ANTES) -->
+  <section class="milami-about" id="millena">
+    <div class="about-wrap">
+      <div class="about-photo gsap-hidden" id="mPhoto">
+        <!-- ✅ arquivo pedido -->
+        <img src="assets/hero_ref.png" alt="Millena Maria">
+      </div>
+
+      <div class="about-content">
+        <p class="about-kicker gsap-hidden" id="mKick">Conheça sua guia</p>
+        <h2 class="about-name gsap-hidden" id="mName">Millena Maria</h2>
+
+        <p class="gsap-hidden mP">
+          Olá! Meu nome é <b>Millena Maria</b>, tenho 28 anos e sou professora de música.
+          Desde adolescente, eu sabia que queria trabalhar com música, só não sabia como.
+        </p>
+
+        <p class="gsap-hidden mP">
+          Consegui uma bolsa pelo ProUni e entrei na <b>Faculdade de Música Carlos Gomes</b> em <b>3º lugar</b>.
+          Fui a segunda pessoa da minha família a se formar, e o caminho até aqui não foi fácil,
+          comecei sem nunca ter estudado música na vida!
+        </p>
+
+        <p class="gsap-hidden mP">
+          Foi no contato com as crianças, com os bebês, que encontrei meu verdadeiro lugar.
+          A musicalização infantil me acolheu com tanta ternura que virou minha maior paixão.
+        </p>
+
+        <div class="about-highlights">
+          <div class="hl gsap-hidden mHL">
+            <div class="hl-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7v3.2c0 1.2-.6 2.3-1.6 3l-.4.3V18h18v-2.5l-.4-.3c-1-.7-1.6-1.8-1.6-3V9a7 7 0 0 0-7-7Zm0 20a3 3 0 0 0 2.8-2H9.2A3 3 0 0 0 12 22Z"/></svg>
+            </div>
+            <div><b>Formada em</b><br>Licenciatura em Música</div>
+          </div>
+
+          <div class="hl gsap-hidden mHL">
+            <div class="hl-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4 0-8 2-8 5v1h16v-1c0-3-4-5-8-5Z"/></svg>
+            </div>
+            <div><b>+10 escolas</b><br>de experiência</div>
+          </div>
+
+          <div class="hl gsap-hidden mHL">
+            <div class="hl-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 3v10a3 3 0 1 0 2 2.83V7h4V3h-6Z"/></svg>
+            </div>
+            <div><b>Especialista</b><br>em bebês e primeira infância</div>
+          </div>
+
+          <div class="hl gsap-hidden mHL">
+            <div class="hl-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.5-8.6C.4 8.8 2.3 5 6 5c1.9 0 3.2 1 4 2.1C10.8 6 12.1 5 14 5c3.7 0 5.6 3.8 3.5 7.4C19 16.6 12 21 12 21Z"/></svg>
+            </div>
+            <div><b>Abordagem</b><br>afetiva e acolhedora</div>
+          </div>
+        </div>
+
+        <div class="quote gsap-hidden" id="mQuote">
+          “A música mora dentro de você. Basta um som suave, uma canção sussurrada,
+          para transformar o momento com o seu bebê.”
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <!---------------------------------------------------DEPOIMENTOS-------------------------------------------------------------->
+
+  <section class="milami-testimonials" id="depoimentos">
+  <div class="testimonials-wrap">
+    <div class="testimonials-head">
+      <div class="testimonials-icon">🧸</div>
+      <h2>O que dizem as famílias</h2>
+      <p>
+        Histórias reais de pais, mães e educadores que já vivem a experiência MiláMi.
+      </p>
+    </div>
+
+    <div class="testimonials-marquee" data-marquee>
+      <div class="testimonials-track">
+        
+        <article class="testimonial-card">
+          <div class="testimonial-badge">✦ Método bem estruturado</div>
+          <div class="testimonial-quote-mark">”</div>
+          <p class="testimonial-text">
+            O método é muito bem estruturado. Consigo aplicar facilmente nas minhas aulas
+            e os pais sempre comentam sobre a evolução das crianças.
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">P</div>
+            <div>
+              <strong>Professora de Educação Infantil</strong>
+              <span>Profissional da educação</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial-card">
+          <div class="testimonial-badge">✦ Momento mais esperado do dia</div>
+          <div class="testimonial-quote-mark">”</div>
+          <p class="testimonial-text">
+            As atividades se tornaram meu momento mais esperado do dia. Minha filha fica
+            animada assim que vê os instrumentos e eu redescobri a alegria de brincar com ela.
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">M</div>
+            <div>
+              <strong>Mãe de criança de 3 anos</strong>
+              <span>Família MiláMi</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial-card">
+          <div class="testimonial-badge">✦ Resultados visíveis</div>
+          <div class="testimonial-quote-mark">”</div>
+          <p class="testimonial-text">
+            Finalmente encontrei algo que me ajuda a estimular meu bebê sem precisar de
+            fórmulas. Os resultados na coordenação e atenção dele são visíveis.
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">P</div>
+            <div>
+              <strong>Pai de bebê de 10 meses</strong>
+              <span>Família MiláMi</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial-card">
+          <div class="testimonial-badge">✦ Leve e possível</div>
+          <div class="testimonial-quote-mark">”</div>
+          <p class="testimonial-text">
+            Gostei porque não virou mais uma obrigação. As propostas entram na rotina de um
+            jeito natural e transformam momentos simples em conexão de verdade.
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">A</div>
+            <div>
+              <strong>Mãe de bebê de 6 meses</strong>
+              <span>Família MiláMi</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- duplicados para loop -->
+        <article class="testimonial-card">
+          <div class="testimonial-badge">✦ Método bem estruturado</div>
+          <div class="testimonial-quote-mark">”</div>
+          <p class="testimonial-text">
+            O método é muito bem estruturado. Consigo aplicar facilmente nas minhas aulas
+            e os pais sempre comentam sobre a evolução das crianças.
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">P</div>
+            <div>
+              <strong>Professora de Educação Infantil</strong>
+              <span>Profissional da educação</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial-card">
+          <div class="testimonial-badge">✦ Momento mais esperado do dia</div>
+          <div class="testimonial-quote-mark">”</div>
+          <p class="testimonial-text">
+            As atividades se tornaram meu momento mais esperado do dia. Minha filha fica
+            animada assim que vê os instrumentos e eu redescobri a alegria de brincar com ela.
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">M</div>
+            <div>
+              <strong>Mãe de criança de 3 anos</strong>
+              <span>Família MiláMi</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial-card">
+          <div class="testimonial-badge">✦ Resultados visíveis</div>
+          <div class="testimonial-quote-mark">”</div>
+          <p class="testimonial-text">
+            Finalmente encontrei algo que me ajuda a estimular meu bebê sem precisar de
+            fórmulas. Os resultados na coordenação e atenção dele são visíveis.
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">P</div>
+            <div>
+              <strong>Pai de bebê de 10 meses</strong>
+              <span>Família MiláMi</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial-card">
+          <div class="testimonial-badge">✦ Leve e possível</div>
+          <div class="testimonial-quote-mark">”</div>
+          <p class="testimonial-text">
+            Gostei porque não virou mais uma obrigação. As propostas entram na rotina de um
+            jeito natural e transformam momentos simples em conexão de verdade.
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">A</div>
+            <div>
+              <strong>Mãe de bebê de 6 meses</strong>
+              <span>Família MiláMi</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <div class="testimonials-footer">
+      <p class="testimonials-note">
+        * Depoimentos representam experiências individuais. Resultados podem variar.
+      </p>
+
+      <div class="testimonials-nav" aria-label="Navegação dos depoimentos">
+        <button class="testimonials-arrow prev" type="button" aria-label="Voltar">
+          <span>‹</span>
+        </button>
+        <button class="testimonials-arrow next" type="button" aria-label="Avançar">
+          <span>›</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--------------------------------------------------PONTOS FORTES-------------------------------------------------------------------------->
+  <section class="milami-fit reveal-up" id="para-quem-e">
+
+  <div class="milami-fit-wrap">
+    <div class="milami-fit-head reveal-up delay-1">
+      <h2>O MiláMi é para você?</h2>
+      <p>
+        Queremos que você faça a escolha certa com total segurança. Veja se a nossa
+        sintonia combina com o que você busca.
+      </p>
+    </div>
+
+    <div class="milami-fit-grid">
+      <!-- CARD ESQUERDO -->
+      <article class="fit-card fit-card--yes reveal-up delay-2">
+        <div class="fit-card-top">
+          <div class="fit-icon fit-icon--yes" aria-hidden="true">
+            <span>☺</span>
+          </div>
+          <h3>Sim, é para você se...</h3>
+        </div>
+
+        <ul class="fit-list">
+          <li>
+            <span class="fit-check">✓</span>
+            <span>Você é <strong>pai, mãe ou cuidador</strong> de crianças de 0 a 6 anos.</span>
+          </li>
+          <li>
+            <span class="fit-check">✓</span>
+            <span>Deseja estimular o desenvolvimento do seu filho de forma <strong>lúdica e leve</strong>.</span>
+          </li>
+          <li>
+            <span class="fit-check">✓</span>
+            <span>Busca <strong>alternativas saudáveis</strong> ao excesso de telas.</span>
+          </li>
+          <li>
+            <span class="fit-check">✓</span>
+            <span>Quer criar <strong>vínculos profundos</strong> através da música.</span>
+          </li>
+          <li>
+            <span class="fit-check">✓</span>
+            <span>Acredita que aprender deve ser uma <strong>aventura prazerosa</strong>.</span>
+          </li>
+        </ul>
+      </article>
+
+      <!-- CARD DIREITO -->
+      <article class="fit-card fit-card--no reveal-up delay-3">
+        <div class="fit-card-top">
+          <div class="fit-icon fit-icon--no" aria-hidden="true">
+            <span>☻</span>
+          </div>
+          <h3>Talvez não seja se...</h3>
+        </div>
+
+        <ul class="fit-list fit-list--muted">
+          <li>
+            <span class="fit-cross">×</span>
+            <span>Procura por fórmulas mágicas ou resultados instantâneos sem dedicação.</span>
+          </li>
+          <li>
+            <span class="fit-cross">×</span>
+            <span>Não tem interesse em participar ativamente das atividades com a criança.</span>
+          </li>
+          <li>
+            <span class="fit-cross">×</span>
+            <span>Não valoriza o brincar como a principal ferramenta de aprendizagem infantil.</span>
+          </li>
+        </ul>
+
+        <div class="fit-note">
+          Nosso compromisso é com o desenvolvimento real e afetivo. Só queremos que você entre
+          se estiver em sintonia conosco.
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+  <!-- ✅ COMPRA (AGORA DEPOIS DA MILLENA) -->
+  <section class="milami-buy" id="compra">
+    <div class="buy-wrap">
+
+      <div class="buy-left gsap-hidden" id="buyLeft">
+        <h3>Por que vale o investimento?</h3>
+
+        <ul class="buy-checklist">
+          <li>Método testado em mais de 10 escolas</li>
+          <li>Atividades simples para aplicar em casa</li>
+          <li>Desenvolvimento cognitivo, motor e emocional</li>
+          <li>Fortalece o vínculo entre você e seu filho</li>
+          <li>Não precisa saber música para aplicar</li>
+          <li>Suporte da comunidade e da professora</li>
+        </ul>
+
+        <div class="buy-think">
+          <h1 class="buy-think__title">Pense assim:</h1>
+          <p>
+            Uma única aula de musicalização infantil presencial custa entre R$ 80 e R$ 150.
+            Com o MiLáMi, você tem acesso a dezenas de aulas, materiais exclusivos e suporte
+            contínuo por uma fração desse valor.
+          </p>
+        </div>
+
+        <div class="buy-guarantee">
+          <h4>Garantia de 7 dias</h4>
+          <p>
+            Se por qualquer motivo você sentir que o MiLáMi não é para sua família,
+            basta solicitar o reembolso integral dentro de 7 dias. Sem perguntas,
+            sem burocracia. O risco é todo nosso.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="product-card gsap-hidden" id="buyCard" aria-label="Card do produto">
+        <div class="product-top">
+          <small>ACESSO COMPLETO</small>
+          <h2>Método MiLáMi</h2>
+        </div>
+
+        <div class="product-body">
+          <ul class="product-list">
+            <li class="product-item">
+              <div class="pico" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 5h16v12H4zM2 19h20v2H2z"/></svg>
+              </div>
+              <div>
+                <b>Videoaulas Completas</b>
+                <span>Módulos organizados por faixa etária com demonstrações práticas</span>
+              </div>
+            </li>
+
+            <li class="product-item">
+              <div class="pico" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M6 2h9l3 3v17H6zM8 8h8v2H8zm0 4h8v2H8zm0 4h6v2H8z"/></svg>
+              </div>
+              <div>
+                <b>Material de Apoio em PDF</b>
+                <span>Guias, atividades e instruções para aplicar cada técnica</span>
+              </div>
+            </li>
+
+            <li class="product-item">
+              <div class="pico" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4 0-8 2-8 5v1h16v-1c0-3-4-5-8-5Z"/></svg>
+              </div>
+              <div>
+                <b>Comunidade Exclusiva</b>
+                <span>Grupo privado para trocar experiências com outras famílias</span>
+              </div>
+            </li>
+
+            <li class="product-item">
+              <div class="pico" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.5-8.6C.4 8.8 2.3 5 6 5c1.9 0 3.2 1 4 2.1C10.8 6 12.1 5 14 5c3.7 0 5.6 3.8 3.5 7.4C19 16.6 12 21 12 21Z"/></svg>
+              </div>
+              <div>
+                <b>Bônus: E-book “Do Ventre ao Colo”</b>
+                <span>Sons que acolhem nos primeiros meses do seu bebê</span>
+              </div>
+            </li>
+
+            <li class="product-item">
+              <div class="pico" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 3v10a3 3 0 1 0 2 2.83V7h4V3h-6Z"/></svg>
+              </div>
+              <div>
+                <b>Playlists Curadas</b>
+                <span>Seleção musical especial para cada momento do dia</span>
+              </div>
+            </li>
+
+            <li class="product-item">
+              <div class="pico" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 1a11 11 0 1 0 11 11A11 11 0 0 0 12 1Zm1 11.4 4.2 2.5-1 1.7L11 13V6h2Z"/></svg>
+              </div>
+              <div>
+                <b>Acesso Vitalício</b>
+                <span>Assista quando e quantas vezes quiser, para sempre</span>
+              </div>
+            </li>
+          </ul>
+
+          <div class="product-divider"></div>
+
+          <div class="product-price">
+            <div class="price-lead">Tenha o melhor para seu filho(a) por apenas</div>
+            <div class="price-main"><b>3x</b> de <b>R$ 26,66</b></div>
+            <div class="price-sub">ou um único pagamento de R$ 80,00</div>
+          </div>
+        </div>
+
+        <div class="product-cta">
+          <a href="#checkout">Quero garantir meu acesso agora</a>
+        </div>
+
+        <div class="product-bottom">
+          <div class="mini">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.5-8.6C.4 8.8 2.3 5 6 5c1.9 0 3.2 1 4 2.1C10.8 6 12.1 5 14 5c3.7 0 5.6 3.8 3.5 7.4C19 16.6 12 21 12 21Z"/></svg>
+            7 dias de garantia
+          </div>
+          <div class="mini">
+            <svg viewBox="0 0 24 24"><path d="M12 1a11 11 0 1 0 11 11A11 11 0 0 0 12 1Zm1 11.4 4.2 2.5-1 1.7L11 13V6h2Z"/></svg>
+            Acesso imediato
+          </div>
+          <div class="mini">
+            <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7v3.2c0 1.2-.6 2.3-1.6 3l-.4.3V18h18v-2.5l-.4-.3c-1-.7-1.6-1.8-1.6-3V9a7 7 0 0 0-7-7Zm0 20a3 3 0 0 0 2.8-2H9.2A3 3 0 0 0 12 22Z"/></svg>
+            Pagamento seguro
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="milami-faq" id="faq">
+  <div class="faq-wrap">
+
+    <!-- ESQUERDA -->
+    <div class="faq-left">
+      <div class="faq-pill faq-pill--orange">FAQ</div>
+
+      <h2 class="faq-title">Perguntas Frequentes</h2>
+
+      <p class="faq-sub">
+        Separei as principais dúvidas que recebo de famílias para você aplicar o Método com segurança e leveza.
+      </p>
+
+      <div class="faq-help-card">
+        <div class="faq-help-icon" aria-hidden="true">?</div>
+
+        <div class="faq-help-content">
+          <h3>Sua dúvida ainda não foi esclarecida?</h3>
+          <p>
+            Fale com nosso suporte e tire suas dúvidas de forma rápida e personalizada.
+          </p>
+
+          <a class="faq-help-btn" href="https://wa.me/5500000000000" target="_blank" rel="noopener">
+            <span class="wpp-dot" aria-hidden="true"></span>
+            Quero tirar uma dúvida
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIREITA -->
+    <div class="faq-right" data-faq>
+
+      <button class="faq-item is-open" type="button" aria-expanded="true">
+        <span class="faq-q">Eu preciso saber música para aplicar com meu bebê?</span>
+        <span class="faq-ico" aria-hidden="true"></span>
+        <span class="faq-a">
+          Não. O Método é guiado e prático: sua voz, respiração e presença já são suficientes.
+          As práticas são simples e pensadas para o dia a dia, mesmo sem tocar nenhum instrumento.
+        </span>
+      </button>
+
+      <button class="faq-item" type="button" aria-expanded="false">
+        <span class="faq-q">Preciso de instrumentos ou materiais específicos?</span>
+        <span class="faq-ico" aria-hidden="true"></span>
+        <span class="faq-a">
+          Não é obrigatório. Você pode começar com o que já existe em casa.
+          Quando sugerimos algo, é sempre opcional e leve, para enriquecer sem complicar.
+        </span>
+      </button>
+
+      <button class="faq-item" type="button" aria-expanded="false">
+        <span class="faq-q">Quanto tempo por dia eu preciso para aplicar?</span>
+        <span class="faq-ico" aria-hidden="true"></span>
+        <span class="faq-a">
+          Poucos minutos já funcionam. A recomendação é escolher um momento do dia
+          (banho, troca, colo ou soneca) e repetir com calma. O que cria resultado é consistência, não duração.
+        </span>
+      </button>
+
+      <button class="faq-item" type="button" aria-expanded="false">
+        <span class="faq-q">O conteúdo é organizado por idade do bebê?</span>
+        <span class="faq-ico" aria-hidden="true"></span>
+        <span class="faq-a">
+          Sim. Você encontra orientações e práticas alinhadas às fases de desenvolvimento,
+          para aplicar com mais segurança e saber o que faz sentido em cada etapa.
+        </span>
+      </button>
+
+      <button class="faq-item" type="button" aria-expanded="false">
+        <span class="faq-q">E se meu bebê estiver chorando ou agitado?</span>
+        <span class="faq-ico" aria-hidden="true"></span>
+        <span class="faq-a">
+          Você terá práticas para acolher e acalmar: sons contínuos, suaves e ritmados,
+          além de ações simples que transformam o colo em abrigo sonoro.
+        </span>
+      </button>
+
+      <button class="faq-item" type="button" aria-expanded="false">
+        <span class="faq-q">Funciona se eu não tiver rotina certinha?</span>
+        <span class="faq-ico" aria-hidden="true"></span>
+        <span class="faq-a">
+          Sim. O Método é flexível. Você aplica nos “intervalos reais” do dia, sem precisar de rotina perfeita.
+          O foco é criar pequenos rituais possíveis, do jeito da sua casa.
+        </span>
+      </button>
+
+      <button class="faq-item" type="button" aria-expanded="false">
+        <span class="faq-q">Posso aplicar mesmo estando cansada(o) e sem “jeito”?</span>
+        <span class="faq-ico" aria-hidden="true"></span>
+        <span class="faq-a">
+          Pode sim. Não é sobre performance. É sobre presença.
+          Mesmo com pouco energia, dá para usar uma frase, um som, uma respiração guiada e um colo mais consciente.
+        </span>
+      </button>
+
+    </div>
+  </div>
+</section>
+
+  <div id="checkout" class="checkout-anchor" aria-hidden="true"></div>
+
+  <footer class="milami-footer" id="rodape">
+    <div class="milami-footer__wrap">
+      <div class="milami-footer__top">
+        <div class="milami-footer__brand">
+          <img class="milami-footer__logo" src="assets/logo.png" alt="MiLáMi">
+          <p class="milami-footer__desc">
+            Musicalização infantil com amor. Desenvolvendo pequenos através da música e fortalecendo vínculos familiares.
+          </p>
+        </div>
+
+        <nav class="milami-footer__nav" aria-label="Navegação">
+          <h3>Navegação</h3>
+          <div class="milami-footer__links">
+            <a href="#hero">Início</a>
+            <a href="#millena">O Método</a>
+            <a href="#sec2">Benefícios</a>
+            <a href="#experiencias">Experiências</a>
+            <a href="#depoimentos">Depoimentos</a>
+            <a href="#faq">FAQ</a>
+            <a href="#para-quem-e">Para quem é</a>
+            <a href="#compra">Inscreva-se</a>
+          </div>
+        </nav>
+
+        <div class="milami-footer__contact">
+          <h3>Contato</h3>
+          <div class="milami-footer__contact-links">
+            <a class="milami-footer__contact-link" href="mailto:contato@milami.com.br">
+              <span class="milami-footer__contact-ico" aria-hidden="true">✉</span>
+              <span>contato@milami.com.br</span>
+            </a>
+            <a class="milami-footer__contact-link" href="https://instagram.com/milamimusicalizacao" target="_blank" rel="noopener">
+              <span class="milami-footer__contact-ico" aria-hidden="true">◎</span>
+              <span>@milamimusicalizacao</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="milami-footer__divider" aria-hidden="true"></div>
+
+      <div class="milami-footer__middle">
+        <p class="milami-footer__copy">© 2026 MiLáMi Musicalização Infantil. Todos os direitos reservados.</p>
+        <div class="milami-footer__legal">
+          <a href="/termos-de-uso">Termos de Uso</a>
+          <a href="/politica-de-privacidade">Política de Privacidade</a>
+        </div>
+      </div>
+
+      <p class="milami-footer__bottom">Desenvolvido pela Agência Brach</p>
+    </div>
+  </footer>
+
+  <!-- GSAP -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) navbar.classList.add('scrolled');
+      else navbar.classList.remove('scrolled');
+    }, {passive:true});
+
+    gsap.registerPlugin(ScrollTrigger);
+    const easeSoft = "power2.out";
+
+    gsap.timeline({ scrollTrigger:{ trigger:"#hero", start:"top 80%", once:true } })
+      .to("#heroTitle",{opacity:1, y:0, duration:0.70, ease:easeSoft})
+      .to(".heroP",    {opacity:1, y:0, duration:0.60, ease:easeSoft, stagger:0.12}, "-=0.32")
+      .to("#heroCta",  {opacity:1, y:0, duration:0.55, ease:easeSoft}, "-=0.22");
+
+    gsap.timeline({ scrollTrigger:{ trigger:"#sec2", start:"top 85%", once:true } })
+      .to("#s2Title",{opacity:1, y:0, duration:0.65, ease:easeSoft})
+      .to("#s2Sub",  {opacity:1, y:0, duration:0.52, ease:easeSoft}, "-=0.28")
+      .to(".s2Card", {opacity:1, y:0, duration:0.55, ease:easeSoft, stagger:0.10}, "-=0.18")
+      .to("#s2Note", {opacity:1, y:0, duration:0.55, ease:easeSoft}, "-=0.18");
+
+    gsap.timeline({ scrollTrigger:{ trigger:"#millena", start:"top 85%", once:true } })
+      .to("#mPhoto",{opacity:1, y:0, duration:0.70, ease:easeSoft})
+      .to("#mKick", {opacity:1, y:0, duration:0.52, ease:easeSoft}, "-=0.45")
+      .to("#mName", {opacity:1, y:0, duration:0.52, ease:easeSoft}, "-=0.45")
+      .to(".mP",    {opacity:1, y:0, duration:0.52, ease:easeSoft, stagger:0.10}, "-=0.30")
+      .to(".mHL",   {opacity:1, y:0, duration:0.52, ease:easeSoft, stagger:0.08}, "-=0.25")
+      .to("#mQuote",{opacity:1, y:0, duration:0.52, ease:easeSoft}, "-=0.20");
+
+    gsap.timeline({ scrollTrigger:{ trigger:"#compra", start:"top 85%", once:true } })
+      .to("#buyLeft", {opacity:1, y:0, duration:0.55, ease:easeSoft})
+      .to("#buyCard", {opacity:1, y:0, duration:0.60, ease:easeSoft}, "-=0.35");
+
+  (function(){
+    const root = document.querySelector('[data-faq]');
+    if(!root) return;
+
+    const items = Array.from(root.querySelectorAll('.faq-item'));
+
+    items.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const isOpen = btn.classList.contains('is-open');
+
+        // fecha todos
+        items.forEach(i => {
+          i.classList.remove('is-open');
+          i.setAttribute('aria-expanded', 'false');
+        });
+
+        // abre o clicado se não estava aberto
+        if(!isOpen){
+          btn.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  })();
+
+  (function () {
+  const marquee = document.querySelector('[data-marquee]');
+  const track = marquee ? marquee.querySelector('.testimonials-track') : null;
+  const prevBtn = document.querySelector('.testimonials-arrow.prev');
+  const nextBtn = document.querySelector('.testimonials-arrow.next');
+
+  if (!marquee || !track) return;
+
+  let currentX = 0;
+  let isDragging = false;
+  let isPaused = false;
+  let startX = 0;
+  let dragStartX = 0;
+
+  let baseVelocity = 0.45;     
+  let boostVelocity = 0;       
+  let boostDecay = 0.92;       
+
+  let holdDirection = 0;       
+  let holdBoost = 1.35;        
+
+  const cards = Array.from(track.children);
+  if (!cards.length) return;
+
+  const gap = 22;
+
+  function getHalfCount() {
+    return Math.floor(track.children.length / 2);
+  }
+
+  function getSingleSetWidth() {
+    const half = getHalfCount();
+    const firstHalf = Array.from(track.children).slice(0, half);
+    return firstHalf.reduce((acc, item) => acc + item.offsetWidth, 0) + ((firstHalf.length - 1) * gap);
+  }
+
+  let singleSetWidth = getSingleSetWidth();
+
+  function setTransform(x) {
+    track.style.transform = `translate3d(${x}px,0,0)`;
+  }
+
+  function normalizeLoop() {
+    if (Math.abs(currentX) >= singleSetWidth) {
+      currentX += singleSetWidth;
+    }
+    if (currentX > 0) {
+      currentX -= singleSetWidth;
+    }
+  }
+
+  function tick() {
+    if (!isPaused && !isDragging) {
+      if (holdDirection !== 0) {
+        boostVelocity = holdDirection * holdBoost;
+      } else {
+        boostVelocity *= boostDecay;
+        if (Math.abs(boostVelocity) < 0.01) {
+          boostVelocity = 0;
+        }
+      }
+
+      currentX -= (baseVelocity + boostVelocity);
+      normalizeLoop();
+      setTransform(currentX);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  function pause() {
+    isPaused = true;
+  }
+
+  function resume() {
+    if (!isDragging) {
+      isPaused = false;
+    }
+  }
+
+  function pointerDown(e) {
+    isDragging = true;
+    isPaused = true;
+    marquee.classList.add('is-dragging');
+
+    startX = e.clientX;
+    dragStartX = currentX;
+  }
+
+  function pointerMove(e) {
+    if (!isDragging) return;
+    const dx = e.clientX - startX;
+    currentX = dragStartX + dx;
+    normalizeLoop();
+    setTransform(currentX);
+  }
+
+  function pointerUp() {
+    if (!isDragging) return;
+    isDragging = false;
+    marquee.classList.remove('is-dragging');
+    isPaused = false;
+  }
+
+  function tapPrev() {
+    boostVelocity = -1.6;
+  }
+
+  function tapNext() {
+    boostVelocity = 1.6;
+  }
+
+  function startHold(direction) {
+    holdDirection = direction;
+  }
+
+  function stopHold() {
+    holdDirection = 0;
+  }
+
+  function bindHoldButton(button, direction, tapFn) {
+    if (!button) return;
+
+    let pressed = false;
+    let holdStarted = false;
+    let holdTimer = null;
+
+    const start = (e) => {
+      e.preventDefault();
+      pressed = true;
+      holdStarted = false;
+
+      holdTimer = setTimeout(() => {
+        if (!pressed) return;
+        holdStarted = true;
+        startHold(direction);
+      }, 140);
+    };
+
+    const end = () => {
+      if (!pressed) return;
+
+      clearTimeout(holdTimer);
+
+      if (holdStarted) {
+        stopHold();
+      } else {
+        tapFn();
+      }
+
+      pressed = false;
+      holdStarted = false;
+    };
+
+    const cancel = () => {
+      clearTimeout(holdTimer);
+      stopHold();
+      pressed = false;
+      holdStarted = false;
+    };
+
+    button.addEventListener('pointerdown', start);
+    button.addEventListener('pointerup', end);
+    button.addEventListener('pointerleave', end);
+    button.addEventListener('pointercancel', cancel);
+    button.addEventListener('lostpointercapture', cancel);
+  }
+
+  marquee.addEventListener('mouseenter', pause);
+  marquee.addEventListener('mouseleave', resume);
+
+  marquee.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.testimonials-arrow')) return;
+    pointerDown(e);
+    marquee.setPointerCapture(e.pointerId);
+  });
+
+  marquee.addEventListener('pointermove', pointerMove);
+  marquee.addEventListener('pointerup', pointerUp);
+  marquee.addEventListener('pointercancel', pointerUp);
+  marquee.addEventListener('lostpointercapture', pointerUp);
+
+  marquee.addEventListener('dragstart', (e) => e.preventDefault());
+
+  bindHoldButton(prevBtn, -1, tapPrev);
+  bindHoldButton(nextBtn, 1, tapNext);
+
+  window.addEventListener('resize', () => {
+    singleSetWidth = getSingleSetWidth();
+    normalizeLoop();
+    setTransform(currentX);
+  });
+
+  setTransform(currentX);
+  tick();
+})();
+
+(function () {
+  const elements = document.querySelectorAll('.reveal-up');
+
+  if (!elements.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.14
+  });
+
+  elements.forEach((el) => observer.observe(el));
+})();
+  </script>
+</body>
+</html>
+
+
