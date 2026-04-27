@@ -1010,8 +1010,14 @@
         padding:0;
         min-height:auto;
       }
-      .about-photo{ min-height:360px; }
-      .about-content{ padding:28px 20px; }
+      .about-photo{
+        min-height:360px;
+        order:2;
+      }
+      .about-content{
+        padding:28px 20px;
+        order:1;
+      }
       .about-highlights{ grid-template-columns:1fr; }
       .about-name{ font-size:28px; }
 
@@ -2095,6 +2101,15 @@
   .milami-footer__top{
     grid-template-columns:1fr;
     gap:28px;
+    text-align:center;
+  }
+
+  .milami-footer__brand,
+  .milami-footer__nav,
+  .milami-footer__contact{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
   }
 
   .milami-footer h3{
@@ -2105,6 +2120,7 @@
   .milami-footer__desc{
     max-width:100%;
     font-size:15px;
+    margin:0 auto;
   }
 
   .milami-footer a{
@@ -2113,6 +2129,17 @@
 
   .milami-footer__logo{
     width:180px;
+    margin:0 auto 14px;
+  }
+
+  .milami-footer__links,
+  .milami-footer__contact-links{
+    justify-items:center;
+  }
+
+  .milami-footer__contact-link{
+    justify-content:center;
+    margin:0 auto;
   }
 
   .milami-footer__copy,
