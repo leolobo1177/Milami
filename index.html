@@ -21,7 +21,7 @@
   <style>
     :root{
       --bege:#F2E6C9;
-      --azul:#0F4C63;
+      --azul:#004B64;
       --azul2:#0E556D;
       --azulTxt:#0E5268;
       --azulTxt2:#1D6A82;
@@ -214,23 +214,33 @@
       transform: translate(74px, -2px);
     }
 
-    .hero-wave{
-      position:absolute;
-      left:50%;
-      bottom:0;
-      width:100%;
-      height:108px;
-      transform:translateX(-50%);
-      overflow:hidden;
-      pointer-events:none;
-      z-index:4;
-    }
-    .hero-wave svg{width:100%;height:100%;display:block}
+    .hero-wave{ display:none; }
 
+    .milami-divider{
+      width:100%;
+      aspect-ratio:3440 / 315;
+      height:auto;
+      background:url("assets/nuven-session-top.png") center top / 100% 100% no-repeat;
+      background-color:var(--bege);
+      display:block;
+      pointer-events:none;
+      position:relative;
+      z-index:3;
+      margin:-1px 0 0;
+    }
+    .milami-divider--bege{ background-color:var(--bege); }
+    .milami-divider--fit{ background-color:#F3EFCF; }
+    .milami-divider--faq{ background-color:#F7F1DE; }
+    .milami-divider--bottom{
+      height:clamp(40px, 5.64vw, 86px);
+      background-image:url("assets/ponta-sessoes-bottom.png");
+      background-position:center top;
+      background-size:100% 100%;
+    }
     /* ===================== SEÇÃO 2 ===================== */
     .milami-s2{
       background:var(--azul);
-      padding:92px 0 46px;
+      padding:64px 0 72px;
       position:relative;
       z-index:2;
     }
@@ -238,7 +248,6 @@
     .s2-wave{
       display:none;
     }
-    .s2-wave svg{width:100%;height:100%;display:block}
 
     .s2-wrap{
       max-width:var(--max);
@@ -326,6 +335,7 @@
       background:var(--bege);
       padding:0;
       overflow:hidden;
+      position:relative;
     }
 
     .about-wrap{
@@ -336,13 +346,13 @@
       grid-template-columns: 1.05fr .95fr;
       gap:0;
       align-items:stretch;
-      min-height:640px;
+      min-height:660px;
     }
 
     .about-photo{
       overflow:hidden;
       background:transparent;
-      min-height:640px;
+      min-height:660px;
     }
     .about-photo img{
       width:100%;
@@ -352,7 +362,7 @@
     }
 
     .about-content{
-      padding:64px 40px;
+      padding:84px 40px;
       color:var(--azulTxt2);
     }
 
@@ -422,7 +432,7 @@
         /* ===================== COMPRA (ESQUERDA ALINHADA À DIREITA) ===================== */
     .milami-buy{
       background: var(--azul);
-      padding: 78px 0 86px;
+      padding: 52px 0 78px;
     }
 
     .buy-wrap{
@@ -963,6 +973,9 @@
 
     /* ===================== RESPONSIVO ===================== */
     @media (max-width: 980px){
+      .milami-s2{
+        padding:52px 0 60px;
+      }
       .milami-wrap{
         grid-template-columns:1fr;
         gap:8px;
@@ -1011,11 +1024,11 @@
         min-height:auto;
       }
       .about-photo{
-        min-height:360px;
+        min-height:380px;
         order:2;
       }
       .about-content{
-        padding:28px 20px;
+        padding:48px 20px;
         order:1;
       }
       .about-highlights{ grid-template-columns:1fr; }
@@ -1024,6 +1037,7 @@
       .buy-wrap{ grid-template-columns: 1fr; gap: 26px; }
       .product-card{ margin: 0 auto; width: 100%; }
       .buy-left{ min-height: 0; }
+      .milami-buy{ padding:48px 0 58px; }
       .buy-think{
         padding:24px 20px 22px;
       }
@@ -1035,7 +1049,7 @@
 /* ===================== DEPOIMENTOS ===================== */
 .milami-testimonials{
   background: var(--azul);
-  padding: 48px 0 92px;
+  padding: 36px 0 70px;
   margin-top: -1px;
   overflow: hidden;
   position: relative;
@@ -1290,7 +1304,7 @@
 /* mobile/tablet */
 @media (max-width: 980px){
   .milami-testimonials{
-    padding: 40px 0 80px;
+    padding: 30px 0 54px;
   }
 
   .testimonials-head{
@@ -1674,7 +1688,7 @@
 
 .milami-experience{
   background:var(--azul);
-  padding:52px 20px 96px;
+  padding:40px 20px 118px;
   position:relative;
   overflow:hidden;
 }
@@ -1901,7 +1915,7 @@
 /* RESPONSIVO */
 @media (max-width: 980px){
   .milami-experience{
-    padding:28px 16px 34px;
+    padding:24px 16px 54px;
   }
 
   .milami-experience__container{
@@ -1969,7 +1983,7 @@
 }
 
 .milami-footer{
-  background:#0F4C63;
+  background:var(--azul);
   color:#F7F1DE;
   padding:74px 0 26px;
 }
@@ -2240,17 +2254,10 @@
     </div>
   </section>
 
+  <div class="milami-divider milami-divider--bege" aria-hidden="true"></div>
+
   <!-- SEÇÃO 2 -->
   <section class="milami-s2" id="sec2">
-    <div class="s2-wave" aria-hidden="true">
-      <svg viewBox="0 0 1440 120" preserveAspectRatio="xMidYMin slice">
-        <path fill="#0F4C63"
-          d="M0,64 C120,80 240,96 360,90 C480,84 600,56 720,50
-             C840,44 960,66 1080,78 C1200,90 1320,92 1440,74
-             L1440,0 L0,0 Z"></path>
-      </svg>
-    </div>
-
     <div class="s2-wrap">
       <h2 class="s2-title gsap-hidden" id="s2Title">Você já se perguntou se está<br>fazendo o suficiente?</h2>
       <p class="s2-sub gsap-hidden" id="s2Sub">Os primeiros meses podem ser delicados.</p>
@@ -2425,6 +2432,8 @@
   </div>
 </section>
 
+<div class="milami-divider milami-divider--bottom milami-divider--bege" aria-hidden="true"></div>
+
   <!-- ✅ MILLENA (AGORA VEM ANTES) -->
   <section class="milami-about" id="millena">
     <div class="about-wrap">
@@ -2488,11 +2497,12 @@
           para transformar o momento com o seu bebê.”
         </div>
       </div>
-    </div>
-  </section>
-  
-  
+  </div>
+</section>
+
   <!---------------------------------------------------DEPOIMENTOS-------------------------------------------------------------->
+
+  <div class="milami-divider milami-divider--bege" aria-hidden="true"></div>
 
   <section class="milami-testimonials" id="depoimentos">
   <div class="testimonials-wrap">
@@ -2658,6 +2668,8 @@
   </div>
 </section>
 
+<div class="milami-divider milami-divider--bottom milami-divider--fit" aria-hidden="true"></div>
+
 <!--------------------------------------------------PONTOS FORTES-------------------------------------------------------------------------->
   <section class="milami-fit reveal-up" id="para-quem-e">
 
@@ -2736,6 +2748,8 @@
     </div>
   </div>
 </section>
+
+  <div class="milami-divider milami-divider--fit" aria-hidden="true"></div>
 
   <!-- ✅ COMPRA (AGORA DEPOIS DA MILLENA) -->
   <section class="milami-buy" id="compra">
@@ -2864,6 +2878,8 @@
     </div>
   </section>
 
+  <div class="milami-divider milami-divider--bottom milami-divider--faq" aria-hidden="true"></div>
+
   <section class="milami-faq" id="faq">
   <div class="faq-wrap">
 
@@ -2964,6 +2980,8 @@
   </div>
 </section>
 
+  <div class="milami-divider milami-divider--faq" aria-hidden="true"></div>
+
   <div id="checkout" class="checkout-anchor" aria-hidden="true"></div>
 
   <footer class="milami-footer" id="rodape">
@@ -3038,7 +3056,7 @@
       .to(".heroP",    {opacity:1, y:0, duration:0.60, ease:easeSoft, stagger:0.12}, "-=0.32")
       .to("#heroCta",  {opacity:1, y:0, duration:0.55, ease:easeSoft}, "-=0.22");
 
-    gsap.timeline({ scrollTrigger:{ trigger:"#sec2", start:"top 85%", once:true } })
+    gsap.timeline({ scrollTrigger:{ trigger:"#sec2", start:"top 68%", once:true } })
       .to("#s2Title",{opacity:1, y:0, duration:0.65, ease:easeSoft})
       .to("#s2Sub",  {opacity:1, y:0, duration:0.52, ease:easeSoft}, "-=0.28")
       .to(".s2Card", {opacity:1, y:0, duration:0.55, ease:easeSoft, stagger:0.10}, "-=0.18")
