@@ -111,17 +111,17 @@
       background:#FDE2AF;
       position:relative;
       overflow:hidden;
-      isolation:isolate;
-      min-height:100vh;
-      padding-top:84px;
+      padding-top:76px;
     }
 
     .milami-wrap{
-      max-width:1280px;
-      min-height:calc(100vh - 84px);
+      max-width:var(--max);
       margin:0 auto;
-      padding:34px 40px 154px;
-      display:block;
+      padding:22px 28px 12px;
+      display:grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap:16px;
+      align-items:center;
       position:relative;
       z-index:2;
     }
@@ -129,8 +129,7 @@
     .hero-copy{
       position:relative;
       z-index:3;
-      max-width:540px;
-      padding:92px 0 0;
+      padding:12px 0 72px;
       align-self:center;
     }
 
@@ -196,22 +195,23 @@
     }
 
     .hero-media{
-      position:absolute;
-      inset:0;
-      min-height:0;
+      position:relative;
+      display:flex;
+      justify-content:flex-end;
+      align-items:flex-end;
+      min-height:620px;
       z-index:1;
-      pointer-events:none;
+      align-self:end;
     }
     .hero-media img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      object-position:center bottom;
+      width:min(1240px, 218%);
+      max-width:none;
+      height:auto;
       display:block;
       filter:none;
       user-select:none;
       pointer-events:none;
-      transform:none;
+      transform: translate(54px, 6px);
     }
 
     .hero-wave{ display:none; }
@@ -225,8 +225,8 @@
       display:block;
       pointer-events:none;
       position:relative;
-      z-index:4;
-      margin:calc(clamp(44px, 4vw, 76px) * -1) 0 0;
+      z-index:3;
+      margin:-1px 0 0;
     }
     .milami-divider--bege{ background-color:var(--bege); }
     .milami-divider--fit{ background-color:#F3EFCF; }
@@ -984,32 +984,24 @@
         padding:52px 0 60px;
       }
       .milami-wrap{
-        min-height:0;
-        padding:18px 20px 112px;
+        grid-template-columns:1fr;
+        gap:8px;
+        padding-top:18px;
+        padding-bottom:10px;
       }
       .milami-hero{
         overflow:hidden;
-        min-height:700px;
-        padding-top:88px;
       }
       .hero-copy{
-        max-width:none;
-        padding:8px 0 0;
+        padding:0 0 18px;
       }
       .hero-media{
-        inset:auto 0 0 0;
-        min-height:0;
-        height:min(54vh, 460px);
+        min-height:390px;
+        justify-content:center;
       }
       .hero-media img{
-        width:100%;
-        height:100%;
-        object-fit:cover;
-        object-position:70% bottom;
-        transform:none;
-      }
-      .milami-divider{
-        margin:calc(clamp(28px, 6vw, 46px) * -1) 0 0;
+        width:min(860px, 172%);
+        transform: translate(18px, 14px);
       }
       .milami-h1{
         font-size:36px;
@@ -2528,7 +2520,7 @@
       </div>
       <h2>O que dizem as famílias</h2>
       <p>
-        Histórias reais de pais, mães e educadores que já vivem a experiência MiLáMi.
+        Histórias reais de pais, mães e educadores que já vivem a experiência MiláMi.
       </p>
     </div>
 
@@ -2562,7 +2554,7 @@
             <div class="testimonial-avatar">M</div>
             <div>
               <strong>Mãe de criança de 3 anos</strong>
-              <span>Família MiLáMi</span>
+              <span>Família MiláMi</span>
             </div>
           </div>
         </article>
@@ -2578,7 +2570,7 @@
             <div class="testimonial-avatar">P</div>
             <div>
               <strong>Pai de bebê de 10 meses</strong>
-              <span>Família MiLáMi</span>
+              <span>Família MiláMi</span>
             </div>
           </div>
         </article>
@@ -2594,7 +2586,7 @@
             <div class="testimonial-avatar">A</div>
             <div>
               <strong>Mãe de bebê de 6 meses</strong>
-              <span>Família MiLáMi</span>
+              <span>Família MiláMi</span>
             </div>
           </div>
         </article>
@@ -2627,7 +2619,7 @@
             <div class="testimonial-avatar">M</div>
             <div>
               <strong>Mãe de criança de 3 anos</strong>
-              <span>Família MiLáMi</span>
+              <span>Família MiláMi</span>
             </div>
           </div>
         </article>
@@ -2643,7 +2635,7 @@
             <div class="testimonial-avatar">P</div>
             <div>
               <strong>Pai de bebê de 10 meses</strong>
-              <span>Família MiLáMi</span>
+              <span>Família MiláMi</span>
             </div>
           </div>
         </article>
@@ -2659,7 +2651,7 @@
             <div class="testimonial-avatar">A</div>
             <div>
               <strong>Mãe de bebê de 6 meses</strong>
-              <span>Família MiLáMi</span>
+              <span>Família MiláMi</span>
             </div>
           </div>
         </article>
@@ -2691,7 +2683,7 @@
 
   <div class="milami-fit-wrap">
     <div class="milami-fit-head reveal-up delay-1">
-      <h2>O MiLáMi é para você?</h2>
+      <h2>O MiláMi é para você?</h2>
       <p>
         Queremos que você faça a escolha certa com total segurança. Veja se a nossa
         sintonia combina com o que você busca.
