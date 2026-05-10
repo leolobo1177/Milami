@@ -115,13 +115,11 @@
     }
 
     .milami-wrap{
-      max-width:var(--max);
+      max-width:1280px;
       margin:0 auto;
-      padding:22px 28px 12px;
-      display:grid;
-      grid-template-columns: .9fr 1.1fr;
-      gap:16px;
-      align-items:center;
+      min-height:720px;
+      padding:38px 40px 154px;
+      display:block;
       position:relative;
       z-index:2;
     }
@@ -129,8 +127,8 @@
     .hero-copy{
       position:relative;
       z-index:3;
-      padding:12px 0 72px;
-      align-self:center;
+      max-width:540px;
+      padding:76px 0 0;
     }
 
     .milami-logo{
@@ -195,23 +193,23 @@
     }
 
     .hero-media{
-      position:relative;
-      display:flex;
-      justify-content:flex-end;
-      align-items:flex-end;
-      min-height:620px;
+      position:absolute;
+      left:50%;
+      bottom:0;
+      width:min(1920px, 100vw);
+      min-height:0;
       z-index:1;
-      align-self:end;
+      pointer-events:none;
+      transform:translateX(-50%);
     }
     .hero-media img{
-      width:min(1240px, 218%);
-      max-width:none;
+      width:100%;
       height:auto;
       display:block;
       filter:none;
       user-select:none;
       pointer-events:none;
-      transform: translate(54px, 6px);
+      transform:none;
     }
 
     .hero-wave{ display:none; }
@@ -227,6 +225,11 @@
       position:relative;
       z-index:3;
       margin:-1px 0 0;
+    }
+    .milami-divider--hero{
+      background-color:transparent;
+      z-index:4;
+      margin:calc(clamp(44px, 4vw, 72px) * -1) 0 0;
     }
     .milami-divider--bege{ background-color:var(--bege); }
     .milami-divider--fit{ background-color:#F3EFCF; }
@@ -984,24 +987,30 @@
         padding:52px 0 60px;
       }
       .milami-wrap{
-        grid-template-columns:1fr;
-        gap:8px;
-        padding-top:18px;
-        padding-bottom:10px;
+        min-height:640px;
+        padding:18px 20px 118px;
       }
       .milami-hero{
         overflow:hidden;
       }
       .hero-copy{
-        padding:0 0 18px;
+        max-width:none;
+        padding:8px 0 0;
       }
       .hero-media{
-        min-height:390px;
-        justify-content:center;
+        left:50%;
+        bottom:0;
+        width:min(980px, 180vw);
+        min-height:0;
+        transform:translateX(-50%);
       }
       .hero-media img{
-        width:min(860px, 172%);
-        transform: translate(18px, 14px);
+        width:100%;
+        height:auto;
+        transform:none;
+      }
+      .milami-divider--hero{
+        margin:calc(clamp(28px, 6vw, 40px) * -1) 0 0;
       }
       .milami-h1{
         font-size:36px;
@@ -2262,7 +2271,7 @@
     </div>
   </section>
 
-  <div class="milami-divider milami-divider--bege" aria-hidden="true"></div>
+  <div class="milami-divider milami-divider--hero" aria-hidden="true"></div>
 
   <!-- SEÇÃO 2 -->
   <section class="milami-s2" id="sec2">
