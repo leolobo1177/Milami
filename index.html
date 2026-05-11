@@ -118,7 +118,7 @@
       max-width:1280px;
       margin:0 auto;
       min-height:720px;
-      padding:38px 40px 214px;
+      padding:38px 32px 214px 88px;
       display:block;
       position:relative;
       z-index:2;
@@ -213,7 +213,7 @@
       filter:none;
       user-select:none;
       pointer-events:none;
-      transform:translateY(94px);
+      transform:translateY(136px);
     }
 
     .hero-wave{ display:none; }
@@ -233,16 +233,23 @@
     .milami-divider--hero{
       background-color:transparent;
       z-index:4;
-      margin:calc(clamp(44px, 4vw, 72px) * -1) 0 0;
+      margin:calc(clamp(84px, 6vw, 114px) * -1) 0 0;
+    }
+    .milami-divider--section-start{
+      margin-bottom:-2px;
     }
     .milami-divider--bege{ background-color:var(--bege); }
     .milami-divider--fit{ background-color:#F3EFCF; }
     .milami-divider--faq{ background-color:#F7F1DE; }
     .milami-divider--bottom{
+      margin-top:-2px;
       height:clamp(40px, 5.64vw, 86px);
       background-image:url("assets/ponta-sessoes-bottom.png");
       background-position:center top;
       background-size:100% 100%;
+    }
+    .milami-divider--bottom-testimonials{
+      margin-top:-4px;
     }
     /* ===================== SEÇÃO 2 ===================== */
     .milami-s2{
@@ -265,11 +272,13 @@
     }
 
     .s2-title{
-      margin:0 0 6px;
-      font-size:26px;
+      margin:0 auto 8px;
+      max-width:max-content;
+      font-size:clamp(36px, 3.4vw, 48px);
       font-weight:800;
-      line-height:1.05;
-      letter-spacing:-.2px;
+      line-height:1.02;
+      letter-spacing:-.5px;
+      white-space:nowrap;
     }
     .s2-sub{
       margin:0 0 26px;
@@ -295,27 +304,21 @@
       text-align:center;
       min-height:170px;
       box-shadow:0 14px 26px rgba(0,0,0,.12);
+      transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
     }
 
     .s2-icon{
-      width:26px;height:26px;
-      margin:0 auto 10px;
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.10);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:800;
-      font-size:12px;
-      opacity:.95;
+      display:none;
     }
 
     .s2-card h3{
       margin:0 0 10px;
       font-weight:800;
-      font-size:13px;
-      line-height:1.2;
+      font-size:19px;
+      line-height:1.08;
+      letter-spacing:-.2px;
+      display:inline-block;
+      transform-origin:center center;
     }
     .s2-card p{
       margin:0;
@@ -330,11 +333,59 @@
       margin:16px auto 0;
       padding:12px 14px;
       border-radius:14px;
-      background:rgba(0,0,0,.14);
-      border:1px solid rgba(255,255,255,.10);
+      background:rgba(245,124,0,.16);
+      border:1px solid rgba(245,124,0,.36);
+      color:#FFEFD3;
       font-size:11.5px;
-      font-weight:400;
-      opacity:.92;
+      font-weight:700;
+      opacity:1;
+    }
+
+    @keyframes s2Chocalho{
+      0%,100%{
+        transform:translateX(0) rotate(0deg);
+      }
+      20%{
+        transform:translateX(-1px) rotate(-2deg);
+      }
+      40%{
+        transform:translateX(2px) rotate(2deg);
+      }
+      60%{
+        transform:translateX(-2px) rotate(-1.6deg);
+      }
+      80%{
+        transform:translateX(1px) rotate(1.4deg);
+      }
+    }
+
+    @keyframes s2ChocalhoIcon{
+      0%,100%{
+        transform:translateY(0) rotate(0deg);
+      }
+      25%{
+        transform:translateY(-1px) rotate(-8deg);
+      }
+      50%{
+        transform:translateY(0) rotate(8deg);
+      }
+      75%{
+        transform:translateY(-1px) rotate(-5deg);
+      }
+    }
+
+    @media (hover: hover) and (pointer: fine){
+      .s2-card:hover{
+        transform:translateY(-2px);
+        border-color:rgba(255,255,255,.18);
+        box-shadow:0 18px 30px rgba(0,0,0,.15);
+      }
+      .s2-card:hover h3{
+        animation:s2Chocalho .55s ease-in-out 1;
+      }
+      .s2-card:hover .s2-icon{
+        animation:s2ChocalhoIcon .55s ease-in-out 1;
+      }
     }
 
     /* ===================== MILLENA (AGORA ANTES DA COMPRA) ===================== */
@@ -990,6 +1041,11 @@
       .milami-s2{
         padding:52px 0 60px;
       }
+      .s2-title{
+        max-width:680px;
+        white-space:normal;
+        font-size:clamp(30px, 7vw, 40px);
+      }
       .milami-wrap{
         min-height:0;
         padding:18px 20px 72px;
@@ -1082,6 +1138,100 @@
       }
     }
 
+    @media (max-width: 560px){
+      .navbar{
+        padding:10px 12px;
+      }
+      .nav-bar{
+        padding:10px 12px;
+        gap:10px;
+      }
+      .brand{
+        min-width:0;
+        flex:0 1 auto;
+      }
+      .brand img{
+        height:30px;
+      }
+      .nav-links{
+        gap:8px;
+        min-width:0;
+        flex:0 1 auto;
+      }
+      .nav-links a.btn-cta{
+        padding:8px 12px;
+        font-size:11px;
+        gap:6px;
+      }
+      .nav-links a.btn-cta .heart{
+        font-size:11px;
+      }
+    }
+
+    @media (max-width: 390px){
+      .nav-bar{
+        gap:8px;
+      }
+      .nav-links a.btn-cta{
+        padding:8px 10px;
+        font-size:10px;
+      }
+      .nav-links a.btn-cta .heart{
+        display:none;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1180px) and (orientation: portrait){
+      .milami-wrap{
+        max-width:1080px;
+        min-height:640px;
+        padding:28px 28px 138px 44px;
+        display:block;
+      }
+      .hero-copy{
+        max-width:390px;
+        padding:30px 0 0;
+        text-align:left;
+      }
+      .hero-media{
+        position:absolute;
+        left:auto;
+        right:-42px;
+        bottom:0;
+        width:min(760px, 74vw);
+        min-height:0;
+        margin:0;
+        transform:none;
+      }
+      .hero-media img{
+        width:100%;
+        transform:translateY(120px);
+      }
+      .milami-h1{
+        font-size:40px;
+      }
+      .milami-lead{
+        font-size:15px;
+        line-height:1.3;
+        text-align:left;
+        margin-left:0;
+        margin-right:0;
+      }
+      .milami-p{
+        font-size:13px;
+        line-height:1.52;
+        text-align:left;
+        margin-left:0;
+        margin-right:0;
+      }
+      .milami-btn{
+        padding:13px 22px;
+        font-size:12px;
+        margin-left:0;
+        margin-right:0;
+      }
+    }
+
 /* ===================== DEPOIMENTOS ===================== */
 .milami-testimonials{
   background: var(--azul);
@@ -1111,7 +1261,7 @@
   margin-bottom: 10px;
 }
 .testimonials-icon img{
-  width: 78px;
+  width: clamp(112px, 11vw, 164px);
   height: auto;
   display:block;
 }
@@ -2038,7 +2188,7 @@
 }
 
 .milami-footer__logo{
-  width:220px;
+  width:320px;
   max-width:100%;
   height:auto;
   display:block;
@@ -2178,7 +2328,7 @@
   }
 
   .milami-footer__logo{
-    width:180px;
+    width:240px;
     margin:0 auto 14px;
   }
 
@@ -2278,7 +2428,7 @@
       <div class="hero-media" aria-hidden="true">
         <picture>
           <source
-            media="(max-width: 1180px) and (orientation: portrait), (max-width: 980px)"
+            media="(max-width: 767px)"
             srcset="assets/hero-banner-milami-tab-mb.png">
           <img src="assets/hero-banner-milami.png" alt="">
         </picture>
@@ -2295,12 +2445,12 @@
     </div>
   </section>
 
-  <div class="milami-divider milami-divider--hero" aria-hidden="true"></div>
+  <div class="milami-divider milami-divider--hero milami-divider--section-start" aria-hidden="true"></div>
 
   <!-- SEÇÃO 2 -->
   <section class="milami-s2" id="sec2">
     <div class="s2-wrap">
-      <h2 class="s2-title gsap-hidden" id="s2Title">Você já se perguntou se está<br>fazendo o suficiente?</h2>
+      <h2 class="s2-title gsap-hidden" id="s2Title">Você já se perguntou se está fazendo o suficiente?</h2>
       <p class="s2-sub gsap-hidden" id="s2Sub">Os primeiros meses podem ser delicados.</p>
 
       <div class="s2-cards">
@@ -2333,7 +2483,7 @@
       </div>
 
       <div class="s2-note gsap-hidden" id="s2Note">
-        💛 A boa notícia? Existe uma forma simples, carinhosa e cientificamente comprovada de estimular seu filho enquanto vocês se conhecem juntos.
+        A boa notícia? Existe uma forma simples, carinhosa e cientificamente comprovada de estimular seu filho enquanto vocês se conhecem juntos.
       </div>
     </div>
   </section>
@@ -2480,7 +2630,7 @@
     <div class="about-wrap">
       <div class="about-photo gsap-hidden" id="mPhoto">
         <!-- ✅ arquivo pedido -->
-        <img src="assets/group-36.png" alt="Millena Maria">
+        <img src="assets/sobre.png" alt="Millena Maria">
       </div>
 
       <div class="about-content">
@@ -2543,13 +2693,13 @@
 
   <!---------------------------------------------------DEPOIMENTOS-------------------------------------------------------------->
 
-  <div class="milami-divider milami-divider--bege" aria-hidden="true"></div>
+  <div class="milami-divider milami-divider--bege milami-divider--section-start" aria-hidden="true"></div>
 
   <section class="milami-testimonials" id="depoimentos">
   <div class="testimonials-wrap">
     <div class="testimonials-head">
       <div class="testimonials-icon">
-        <img src="assets/coala_solto.png" alt="">
+        <img src="assets/logo-coala.png" alt="Coala musical do MiLáMi">
       </div>
       <h2>O que dizem as famílias</h2>
       <p>
@@ -2709,7 +2859,7 @@
   </div>
 </section>
 
-<div class="milami-divider milami-divider--bottom milami-divider--fit" aria-hidden="true"></div>
+<div class="milami-divider milami-divider--bottom milami-divider--bottom-testimonials milami-divider--fit" aria-hidden="true"></div>
 
 <!--------------------------------------------------PONTOS FORTES-------------------------------------------------------------------------->
   <section class="milami-fit reveal-up" id="para-quem-e">
@@ -2790,7 +2940,7 @@
   </div>
 </section>
 
-  <div class="milami-divider milami-divider--fit" aria-hidden="true"></div>
+  <div class="milami-divider milami-divider--fit milami-divider--section-start" aria-hidden="true"></div>
 
   <!-- ✅ COMPRA (AGORA DEPOIS DA MILLENA) -->
   <section class="milami-buy" id="compra">
@@ -3021,7 +3171,7 @@
   </div>
 </section>
 
-  <div class="milami-divider milami-divider--faq" aria-hidden="true"></div>
+  <div class="milami-divider milami-divider--faq milami-divider--section-start" aria-hidden="true"></div>
 
   <div id="checkout" class="checkout-anchor" aria-hidden="true"></div>
 
@@ -3029,7 +3179,7 @@
     <div class="milami-footer__wrap">
       <div class="milami-footer__top">
         <div class="milami-footer__brand">
-          <img class="milami-footer__logo" src="assets/logo.png" alt="MiLáMi">
+          <img class="milami-footer__logo" src="assets/logo-inteiro.png" alt="MiLáMi">
           <p class="milami-footer__desc">
             Musicalização infantil com amor. Desenvolvendo pequenos através da música e fortalecendo vínculos familiares.
           </p>
