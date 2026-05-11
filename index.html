@@ -202,6 +202,10 @@
       pointer-events:none;
       transform:translateX(-50%);
     }
+    .hero-media picture{
+      display:block;
+      width:100%;
+    }
     .hero-media img{
       width:100%;
       height:auto;
@@ -982,27 +986,34 @@
     .gsap-hidden{ opacity:0; transform: translateY(14px); }
 
     /* ===================== RESPONSIVO ===================== */
-    @media (max-width: 980px){
+    @media (max-width: 1180px) and (orientation: portrait), (max-width: 980px){
       .milami-s2{
         padding:52px 0 60px;
       }
       .milami-wrap{
-        min-height:640px;
+        min-height:0;
         padding:18px 20px 156px;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:24px;
       }
       .milami-hero{
         overflow:hidden;
       }
       .hero-copy{
-        max-width:none;
+        max-width:720px;
         padding:8px 0 0;
+        text-align:center;
       }
       .hero-media{
-        left:50%;
-        bottom:0;
-        width:min(980px, 180vw);
+        position:relative;
+        left:auto;
+        bottom:auto;
+        width:min(860px, 100%);
         min-height:0;
-        transform:translateX(-50%);
+        transform:none;
+        margin:0 auto;
       }
       .hero-media img{
         width:100%;
@@ -1019,16 +1030,24 @@
       .milami-lead{
         font-size:16px;
         line-height:1.34;
-        text-align:justify;
+        text-align:center;
         text-wrap:pretty;
+        margin-left:auto;
+        margin-right:auto;
       }
       .milami-p{
         font-size:15px;
         line-height:1.62;
-        text-align:justify;
+        text-align:center;
         text-wrap:pretty;
+        margin-left:auto;
+        margin-right:auto;
       }
       .hero-break{display:none}
+      .milami-btn{
+        margin-left:auto;
+        margin-right:auto;
+      }
       .nav-links a{display:none}
       .nav-links a.btn-cta{display:inline-flex}
 
@@ -2257,7 +2276,12 @@
       </div>
 
       <div class="hero-media" aria-hidden="true">
-        <img src="assets/hero-banner-milami.png" alt="">
+        <picture>
+          <source
+            media="(max-width: 1180px) and (orientation: portrait), (max-width: 980px)"
+            srcset="assets/hero-banner-milami-tab-mb.png">
+          <img src="assets/hero-banner-milami.png" alt="">
+        </picture>
       </div>
     </div>
 
