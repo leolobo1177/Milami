@@ -243,13 +243,17 @@
     .milami-divider--faq{ background-color:#F7F1DE; }
     .milami-divider--bottom{
       margin-top:-2px;
-      height:clamp(40px, 5.64vw, 86px);
+      aspect-ratio:3440 / 194;
+      height:auto;
       background-image:url("assets/ponta-sessoes-bottom.png");
       background-position:center top;
       background-size:100% 100%;
     }
     .milami-divider--bottom-testimonials{
       margin-top:-4px;
+    }
+    .milami-divider--section-start-testimonials{
+      margin-bottom:-4px;
     }
     /* ===================== SEÇÃO 2 ===================== */
     .milami-s2{
@@ -273,7 +277,8 @@
 
     .s2-title{
       margin:0 auto 8px;
-      max-width:max-content;
+      max-width:920px;
+      width:100%;
       font-size:clamp(36px, 3.4vw, 48px);
       font-weight:800;
       line-height:1.02;
@@ -1043,6 +1048,7 @@
       }
       .s2-title{
         max-width:680px;
+        width:auto;
         white-space:normal;
         font-size:clamp(30px, 7vw, 40px);
       }
@@ -1236,7 +1242,7 @@
 .milami-testimonials{
   background: var(--azul);
   padding: 36px 0 70px;
-  margin-top: -1px;
+  margin-top: -2px;
   overflow: hidden;
   position: relative;
 }
@@ -2693,7 +2699,7 @@
 
   <!---------------------------------------------------DEPOIMENTOS-------------------------------------------------------------->
 
-  <div class="milami-divider milami-divider--bege milami-divider--section-start" aria-hidden="true"></div>
+  <div class="milami-divider milami-divider--bege milami-divider--section-start milami-divider--section-start-testimonials" aria-hidden="true"></div>
 
   <section class="milami-testimonials" id="depoimentos">
   <div class="testimonials-wrap">
