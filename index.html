@@ -2190,6 +2190,18 @@
   background:var(--azul);
   color:#F7F1DE;
   padding:74px 0 26px;
+  position:relative;
+  z-index:1;
+}
+
+.milami-footer::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:-8px;
+  height:10px;
+  background:var(--azul);
 }
 
 .milami-footer__wrap{
